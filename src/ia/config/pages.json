@@ -1,0 +1,44 @@
+{
+    "pages": [
+        {
+            "id": 11,
+            "type": "input",
+            "question": "",
+            "key": "p1",
+            "next_page": 12
+        },
+        {
+            "id": 12,
+            "type": "question",
+            "prompt_key": "investiga",
+            "key": "p2",
+            "next_page": 13
+        },
+        {
+            "id": 13,
+            "type": "question",
+            "prompt_key": "investiga2",
+            "key": "p3",
+            "next_page": 14
+        },
+        {
+            "id": 14,
+            "type": "question",
+            "prompt_key": "investiga3",
+            "key": "p4",
+            "next_page": 15
+        },
+        {
+            "id": 15,
+            "type": "question",
+            "prompt_key": "investiga4",
+            "key": "p5",
+            "next_page": 16
+        },
+        {
+            "id": 16,
+            "type": "final",
+            "next_page": 6
+        }
+    ]
+}

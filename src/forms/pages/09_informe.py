@@ -1,0 +1,41 @@
+import streamlit as st
+from forms.data_form import export_docx_wrapper
+
+def run():
+    # Inicializa session_state si es primera ejecución
+    st.header("📄 Paso 9 – Generar Informe")
+
+    # Formulario para datos básicos del informe
+    with st.form(key="form_informe"):
+        st.text_input(
+            'Informe N°*',
+            value=st.session_state.informe_numero,
+            key='informe_numero'
+        )
+        st.text_input(
+            'Investigador*',
+            value=st.session_state.investigador,
+            key='investigador'
+        )
+        st.date_input(
+            'Fecha Informe',
+            value=st.session_state.fecha_informe,
+            key='fecha_informe'
+        )
+        # Capturamos si el usuario hace submit
+        submitted = st.form_submit_button('📄 Generar Informe')
+
+    # Ejecutar generación fuera del bloque form
+    if submitted:
+        # Referencias de estado preservadas
+        print("Relato (backup):", st.session_state.relatof_backup)
+        print("Hechos (backup):", st.session_state.hechos_backup)
+
+        try:
+            # Llamada al wrapper que genera y despliega el documento
+            export_docx_wrapper()
+            st.success('✅ Informe generado correctamente')
+            st.balloons()
+        except Exception as e:
+            st.error(f'❌ Error al generar informe: {e}')
+

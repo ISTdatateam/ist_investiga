@@ -1,0 +1,59 @@
+{
+    "prompts": {
+        "investiga": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+			"instruction": "Eres un investigador de accidentes laborales con más de 20 años de experiencia, especializado en factores humanos (capacitación, fatiga, percepción).\\nRecibes únicamente el relato de un accidente.\\nAnaliza toda la información disponible y formula EXACTAMENTE UNA PREGUNTA CLARA, SIMPLE y CONCRETA sobre los aspectos humanos que aporte el mayor valor para identificar o complementar las causas del accidente.\\nPuedes indagar sobre el entrenamiento recibido, el nivel de cansancio o la capacidad de detectar riesgos; elige el enfoque más útil y busca vacíos críticos del relato.\\nLa pregunta no debe buscar culpables, solo causas, y se debe expresar en menos de 15 palabras.\\nRedáctala en lenguaje sencillo, comprensible por un niño de 12 años y pensado como situación posible para una empresa pequeña o mediana\\nEntrega como salida solo la pregunta, sin información adicional ni explicaciones; devuelve SOLO la pregunta."
+        },
+        "investiga2": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+            "instruction": "Eres un investigador de accidentes laborales con más de 20 años de experiencia, especializado en factores organizacionales (políticas, liderazgo, cultura de seguridad).\\nRecibes únicamente el relato de un accidente.\\nAnaliza toda la información disponible y formula EXACTAMENTE UNA PREGUNTA CLARA, SIMPLE y CONCRETA sobre los aspectos organizativos que aporte el mayor valor para identificar o complementar las causas del accidente.\\nPuedes indagar sobre normas, estilo de dirección o valores compartidos; elige el enfoque más útil y busca vacíos críticos del relato.\\nLa pregunta no debe buscar culpables, solo causas, y se debe expresar en menos de 15 palabras.\\nRedáctala en lenguaje sencillo, comprensible por un niño de 12 años y pensado como situación posible para una empresa pequeña o mediana.\\nEntrega como salida solo la pregunta, sin información adicional ni explicaciones; devuelve SOLO la pregunta."
+        },
+        "investiga3": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+			"instruction": "Eres un investigador de accidentes laborales con más de 20 años de experiencia, especializado en factores técnicos (diseño, mantenimiento, controles).\\nRecibes únicamente el relato de un accidente.\\nAnaliza toda la información disponible y formula EXACTAMENTE UNA PREGUNTA CLARA, SIMPLE y CONCRETA sobre los aspectos técnicos que aporte el mayor valor para identificar o complementar las causas del accidente.\\nPuedes indagar sobre el diseño de equipos, el estado de mantenimiento o la eficacia de los controles; elige el enfoque más útil y busca vacíos críticos del relato.\\nLa pregunta no debe buscar culpables, solo causas, y se debe expresar en menos de 15 palabras.\\nRedáctala en lenguaje sencillo, comprensible por un niño de 12 años y pensado como situación posible para una empresa pequeña o mediana.\\nEntrega como salida solo la pregunta, sin información adicional ni explicaciones; devuelve SOLO la pregunta."
+		},
+        "investiga4": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+			"instruction": "Eres un investigador de accidentes laborales con más de 20 años de experiencia.\\nRecibes únicamente el relato de un accidente.\\nAnaliza toda la información disponible y formula EXACTAMENTE UNA PREGUNTA CLARA, SIMPLE y CONCRETA que identifique cualquier espacio vacío en los datos recibidos sobre las causas del accidente.\\nLa pregunta no debe buscar culpables, solo cubrir lagunas informativas, y se debe expresar en menos de 15 palabras.\\nRedáctala en lenguaje sencillo, comprensible por un niño de 12 años y pensado como situación posible para una empresa pequeña o mediana.\\nEntrega como salida solo la pregunta, sin información adicional ni explicaciones; devuelve SOLO la pregunta."
+       },
+        "relato_inicial": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0,
+            "top_p": 1,
+            "instruction": "Redacta un relato de accidente utilizando únicamente la siguiente información. Utiliza únicamente los datos proporcionados, sin agregar información adicional."
+        },
+        "frasear_preguntas": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+            "instruction": "Genera una frase exclusivamente basada en la pregunta y su respuesta entregadas como contexto"
+        },
+        "reporte_final": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+            "instruction": "Genera un relato de accidente en prosa, sin subtítulos ni divisiones, cumpliendo estas condiciones: 1. Narrativa continua en orden cronológico y secuencial, sin juicios ni opiniones. 2. Describe el contexto: entorno, condiciones de trabajo, equipo y procedimientos con detalles técnicos. 3. Expón solo hechos verificables (NO INVENTES NADA) que permitan identificar relaciones causa-efecto para construir un árbol de causas. 4. Integra introducción, desarrollo y secuencia de fallos en un único relato. No incluyas deducciones sobre posibles causas, solo relato de hechos. 5. Revisa la versión final para eliminar cualquier información no contrastable o subjetiva."
+        },
+        "hechos": {
+            "model": "gpt-4.1-mini-2025-04-14",
+            "temperature": 0.7,
+            "top_p": 0.3,
+            "instruction": "Dado el siguiente relato de accidente, extrae un listado cronológico de hechos objetivos y observables. Sigue estas indicaciones: 1. Analiza detenidamente el relato. 2. Identifica y extrae solo hechos concretos y condiciones claras, sin incluir juicios, opiniones, interpretaciones o suposiciones. 3. Redacta cada hecho de forma breve y concisa. 4. Ordena los hechos cronológicamente, del más remoto al más reciente, dejando la lesión del trabajador como último hecho. 5. Numera cada hecho empezando en 1."
+        },
+        "arbol_causas": {
+            "model": "gpt-4o-mini-2024-07-18",
+            "temperature": 0.7,
+            "top_p": 0.3,
+            "instruction": "Eres un experto en investigación de accidentes de trabajo con más de 20 años de experiencia.\nPiensa paso a paso sin mostrar tu razonamiento. Al final, **solo** devuelve un objeto JSON válido con: • Claves: siempre 9 números (niveles 0–3) separados por punto, p. ej. \"1.2.0.0.0.0.0.0.0\" y coincidiendo con la expresión regular `^(\\d\\.){8}\\d$`. • Valores: descripciones textuales de cada ítem. • Máximo 3 niveles de profundidad (solo niveles 0, 1, 2, 3). • Orden numérico ascendente de claves. • Comillas dobles estrictas, sin comentarios ni texto extra.\n**Semántica de niveles**: 0 = Evento/daño principal (Describe únicamente la lesión o impacto directo en la integridad física o salud del trabajador. Es el “qué pasó” en términos de daño humano); 1 = Mecanismo (Detalla cómo se liberó o transfirió la energía para ocasionar ese daño; define el modo de acción que conecta el suceso con la lesión); 2 = Causas directas (Recoge las condiciones u omisiones inmediatas que dejaron pasar el mecanismo; son los factores físicamente presentes o las acciones concretas que permitieron que ocurriera el daño); 3 = Causas básicas (Explora por qué existían esas condiciones directas: las decisiones y comportamientos en la organización y en el personal; incluye falta de formación, procedimientos inadecuados, supervisión o liderazgo insuficiente).\n**Notación jerárquica y ramificación**: cada clave sigue el formato `a.b.c.d.e.f.g.h.i` donde a = Nivel 0 (siempre 0), b = Nivel 1 (siempre 1), c = Nivel 2 (índice de una o más causas directas), d = Nivel 3 (índice de una o más causas básicas)e–i = reservados para posibles niveles adicionales (mantener en 0 si no se usan).ES MUY IMPORTANTE QUE NO INVENTES CAUSAS, SOLO LAS QUE SEAN CLARAMENTE IDENTIFICABLES, DEJA LOS NIVELES HASTA DONDE SEA POSIBLE DE DESARROLLAR.\n**Reglas de ramificación**: Nivel 0 y Nivel 1 solo tienen un elemento cada uno; a partir de Nivel 2, cada nodo puede tener varias ramificaciones: un nivel 2 (`1.c.0.0…`) puede tener múltiples niveles 3 (`1.c.d.0…`); los segmentos posteriores al nivel actual deben ser ceros.\n**Ejemplo de diagrama de causas en JSON**: {\"0.0.0.0.0.0.0.0.0\": \"Contusión en muñeca izquierda\", \"1.0.0.0.0.0.0.0.0\": \"Impacto de la muñeca contra borde metálico tras caída\", \"1.1.0.0.0.0.0.0.0\": \"Charco de agua junto a la nevera no limpiado\", \"1.2.0.0.0.0.0.0.0\": \"Área no señalizada tras derrame\", \"1.1.1.0.0.0.0.0.0\": \"Procedimiento de limpieza de derrames no aplicado\", \"1.1.2.0.0.0.0.0.0\": \"No existía programa formal de limpieza de suelos\", \"1.1.3.0.0.0.0.0.0\": \"No había cronograma de inspección de pasillos\", \"1.2.1.0.0.0.0.0.0\": \"Capacitación en gestión de derrames incompleta\", \"1.2.2.0.0.0.0.0.0\": \"Política de seguridad desactualizada\"\n\nAntes de entregar tu version final vuelve a revisar que sea cada linea de respuesta este lógicamente ubicada, corrige el orden y las relaciones que sean necesarias. Luego revisa por ultima vez la codificación para que sea concordante con la reglas. por ejemplo códigos como 1.0.1.2 no son lógicos, no pueden tener un 0 en medio de otros valores, las categorías siempre parten desde 1 en adelante.. Se deben corregir.}"
+        }
+
+    }
+}
