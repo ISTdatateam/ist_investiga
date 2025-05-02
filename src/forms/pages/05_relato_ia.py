@@ -3,7 +3,7 @@ import streamlit as st
 from forms.data_form import init_session_fields, get_qm
 from ia.questions import InvestigationApp
 
-
+'''
 st.session_state.initial_story = """IDENTIFICACIÓN		1.NOMBRE	MARIA DEL ROSARIO PARRAGUEZ MERINO
 		2. RUT	10.965.002-1
 		3. EDAD	52 AÑOS
@@ -17,11 +17,16 @@ st.session_state.initial_story = """IDENTIFICACIÓN		1.NOMBRE	MARIA DEL ROSARIO 
 		11. TIPO DE ACCIDENTE: 	GOLPE CONTRA
 		12.TAREA REALIZADA:	TRASLADO DE MERCADERIA 
 La colaboradora antes individualizada quien se desempeña como operador perecible, se encontraba trasladando jugos a bodega con carro de supermercado cuando, al pasar por pasillo de trastienda, se golpea el dedo meñique de la mano derecha con gaveta de Red Húmeda que se encontraba abierta generándole un corte en la zona antes mencionada. """
+'''
+
 
 
 def run():
-    # Inicializa session_state
-    init_session_fields()
+    # -- Sólo inicializar la primera vez --
+    if not st.session_state.get("initialized_fields", False):
+        init_session_fields()
+        st.session_state["initialized_fields"] = True
+
     st.header("🧠 Paso 5 – Construcción del relato")
 
     qm = get_qm()
@@ -31,20 +36,6 @@ def run():
         # Incluir inputs de contexto y circunstancias
         st.text_area('Contexto', key='contexto', value=st.session_state.get('contexto',''), height=150)
         st.text_area('Circunstancias', key='circunstancias', value=st.session_state.get('circunstancias',''), height=150)
-
-        st.session_state.initial_story = """IDENTIFICACIÓN		1.NOMBRE	MARIA DEL ROSARIO PARRAGUEZ MERINO
-        		2. RUT	10.965.002-1
-        		3. EDAD	52 AÑOS
-        		4.  FECHA ACCIDENTE:	07-11-2024
-        		5.  HORA ACCIDENTE:	12:30 HRS
-        		6.  FECHA AVISO ACCIDENTE:	07-11-2024
-        		7.  SECCIÓN:	PERECIBLES
-        		8. CARGO:	OPERADOR PERECIBLES
-        		9. ANTIGÜEDAD EN EL CARGO:	11 AÑOS
-        		10. ZONA DEL CUERPO LESIONADA:	DEDO MEÑIQUE MANO DERECHA
-        		11. TIPO DE ACCIDENTE: 	GOLPE CONTRA
-        		12.TAREA REALIZADA:	TRASLADO DE MERCADERIA 
-        La colaboradora antes individualizada quien se desempeña como operador perecible, se encontraba trasladando jugos a bodega con carro de supermercado cuando, al pasar por pasillo de trastienda, se golpea el dedo meñique de la mano derecha con gaveta de Red Húmeda que se encontraba abierta generándole un corte en la zona antes mencionada. """
 
         if st.button('🧠 Ejecutar IA'):
             # Construir prompt inicial si no está definido

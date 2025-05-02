@@ -1,8 +1,16 @@
 import streamlit as st
 from forms.data_form import export_docx_wrapper
+from forms.data_form import init_session_fields
+
+
 
 def run():
     # Inicializa session_state si es primera ejecución
+    # -- Sólo inicializar la primera vez --
+    if not st.session_state.get("initialized_fields", False):
+        init_session_fields()
+        st.session_state["initialized_fields"] = True
+
     st.header("📄 Paso 9 – Generar Informe")
 
     # Formulario para datos básicos del informe
@@ -35,7 +43,6 @@ def run():
             # Llamada al wrapper que genera y despliega el documento
             export_docx_wrapper()
             st.success('✅ Informe generado correctamente')
-            st.balloons()
         except Exception as e:
             st.error(f'❌ Error al generar informe: {e}')
 
