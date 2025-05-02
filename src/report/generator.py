@@ -23,16 +23,12 @@ class InformeGenerator:
         self.required_data = {
             'relato': st.session_state.get('relatof_backup'),
             'hechos': st.session_state.get('hechos_backup'),
-            'arbol_dot': st.session_state.get('arbol_dot')
+            'arbol_dot': st.session_state.get('arbol_dot'),
+            'medidas': st.session_state.get('edited_measures', [])
         }
 
     def validate_data(self):
         """Verifica que existan relato, hechos y árbol DOT"""
-        print(st.session_state.relatof_backup)
-        print(st.session_state.hechos_backup)
-        print(st.session_state.arbol_dot)
-
-
         faltantes = [k for k, v in self.required_data.items() if not v]
 
         if faltantes:
@@ -60,6 +56,7 @@ class InformeGenerator:
 
     def _create_document(self):
         doc = Document()
+        doc.core_properties.language = 'es'
         sec = doc.sections[0]
         sec.top_margin = Cm(2.5)
         sec.left_margin = Cm(2.5)
@@ -78,7 +75,6 @@ class InformeGenerator:
             st.error(f"Error cargando logo: {e}")
 
     def _add_title(self, doc):
-        doc.add_paragraph()
         codigo_p = doc.add_paragraph()
         self._apply_style(codigo_p, 'codigo')
         codigo_p.add_run(f"Código: {st.session_state.get('informe_numero','ACC-2024-001')}")
@@ -88,6 +84,7 @@ class InformeGenerator:
 
     def _add_info_empresa_centro(self, doc):
         heading = doc.add_heading('1. Información de la Empresa y Centro de Trabajo', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         data = [
             ('Razón Social', st.session_state.get('empresa','')),
@@ -102,10 +99,11 @@ class InformeGenerator:
             ('Dirección Centro', st.session_state.get('direccion',''))
         ]
         self._create_info_table(doc, data)
-        doc.add_page_break()
+        doc.add_paragraph()
 
     def _add_info_trabajador(self, doc):
         heading = doc.add_heading('2. Datos del Trabajador', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         fn = st.session_state.get('fecha_nacimiento')
         fecha_nac = fn.strftime('%d/%m/%Y') if hasattr(fn, 'strftime') else str(fn)
@@ -126,6 +124,7 @@ class InformeGenerator:
 
     def _add_detalles_accidente(self, doc):
         heading = doc.add_heading('3. Detalles del Accidente', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         fa = st.session_state.get('fecha_accidente')
         fecha_acc = fa.strftime('%d/%m/%Y') if hasattr(fa, 'strftime') else str(fa)
@@ -145,10 +144,11 @@ class InformeGenerator:
             ('Pérdidas en Proceso', st.session_state.get('perdidas_proceso',''))
         ]
         self._create_info_table(doc, data)
-        doc.add_page_break()
+        doc.add_paragraph()
 
     def _add_narrative(self, doc):
         heading = doc.add_heading('4. Relato del Accidente', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         p = doc.add_paragraph(self.required_data['relato'])
         p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
@@ -156,6 +156,7 @@ class InformeGenerator:
 
     def _add_facts(self, doc):
         heading = doc.add_heading('5. Hechos Establecidos', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         for hecho in self.required_data['hechos'].split('\n'):
             if hecho.strip():
@@ -172,7 +173,8 @@ class InformeGenerator:
         graph.render(output_path, cleanup=True)
 
     def _add_cause_tree(self, doc):
-        heading = doc.add_heading('6. Análisis de Causas Raíz', level=2)
+        heading = doc.add_heading('6. Análisis de mediante arbol de causas', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         if st.session_state.get('cause_tree_png'):
             doc.add_picture(st.session_state['cause_tree_png'], width=Cm(16))
@@ -184,42 +186,65 @@ class InformeGenerator:
         last_para = doc.paragraphs[-1]
         last_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
         caption = doc.add_paragraph(style='Caption')
-        caption.add_run('Figura: Árbol de Causas').italic = True
         doc.add_page_break()
 
     def _add_corrective_measures(self, doc):
-        medidas = st.session_state.get('edited_measures', [])
+        medidas = self.required_data.get('medidas', [])
         if not medidas:
             return
         heading = doc.add_heading('7. Medidas Correctivas', level=2)
+        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
-        table = doc.add_table(rows=1, cols=7)
-        table.style = 'Table Grid'
-        headers = ['ID','Tipo','Prioridad','Descripción','Plazo','Responsable','Costo']
-        for i, h in enumerate(headers):
-            cell = table.rows[0].cells[i]
-            cell.text = h
-            self._apply_style(cell.paragraphs[0], 'tabla_header')
+        # Calcular ancho disponible de la página
+        section = doc.sections[0]
+        available_width = section.page_width - section.left_margin - section.right_margin
         for m in medidas:
-            row = table.add_row().cells
-            row[0].text = m.get('id','')
-            row[1].text = m.get('tipo','')
-            row[2].text = m.get('prioridad','')
-            row[3].text = m.get('descripcion','')
-            row[4].text = m.get('plazo','')
-            row[5].text = m.get('responsable','')
-            row[6].text = m.get('costo_estimado','')
-        doc.add_page_break()
+            table = doc.add_table(rows=3, cols=3)
+            try:
+                table.style = 'Table Grid'
+            except Exception:
+                pass
+            table.allow_autofit = False
+            # Fila 1: Tipo (col1), Prioridad (col2-3 merged)
+            row1 = table.rows[0].cells
+            row1[0].text = f"Tipo: {m.get('tipo','')}"
+            merged_prio = row1[1].merge(row1[2])
+            merged_prio.text = f"Prioridad: {m.get('prioridad','')}"
+            # Fila 2: Descripción (todas 3 fused)
+            desc_cells = table.rows[1].cells
+            merged_desc = desc_cells[0].merge(desc_cells[1]).merge(desc_cells[2])
+            merged_desc.text = f"Descripción: {m.get('descripcion','')}"
+            # Fila 3: Plazo (col1-2 merged), Responsable (col3)
+            row3 = table.rows[2].cells
+            merged_pl = row3[1].merge(row3[2])
+            row3[0].text = f"Plazo: {m.get('plazo','')}"
+            merged_pl.text = f"Responsable: {m.get('responsable','')}"
+            doc.add_paragraph()
 
     def _add_closure(self, doc):
-        heading = doc.add_heading('8. Cierre del Informe', level=2)
-        self._apply_style(heading, 'encabezado2')
-        data = [
-            ('Informe Nº', st.session_state.get('informe_numero','')),
-            ('Responsable Investigación', st.session_state.get('investigador','')),
-            ('Fecha Informe', st.session_state.get('fecha_informe', datetime.today()).strftime('%d/%m/%Y'))
-        ]
-        self._create_info_table(doc, data)
+        doc.add_paragraph()
+        doc.add_paragraph()
+        doc.add_paragraph()
+        # 1) Nombre del investigador — negrita y centrado
+        investigador = st.session_state.get('investigador', '')
+        p_inv = doc.add_paragraph(investigador)
+        p_inv.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        if p_inv.runs:
+            p_inv.runs[0].bold = True
+
+        # 2) Etiqueta "Responsable Investigación" — centrada
+        p_resp = doc.add_paragraph('Consultor IST')
+        p_resp.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        # 3) Fecha del informe — alineada a la derecha
+        doc.add_paragraph()
+        doc.add_paragraph()
+        fecha = st.session_state.get(
+            'fecha_informe',
+            datetime.today()
+        ).strftime('%d/%m/%Y')
+        p_fecha = doc.add_paragraph(f'Fecha informe: {fecha}')
+        p_fecha.alignment = WD_ALIGN_PARAGRAPH.LEFT
 
     def _create_info_table(self, doc, data):
         table = doc.add_table(rows=len(data), cols=2)

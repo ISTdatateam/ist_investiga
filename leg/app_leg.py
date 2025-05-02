@@ -1,8 +1,7 @@
 import os
 import sys
 import streamlit as st
-from docutils.nodes import sidebar
-from streamlit_option_menu import option_menu
+
 
 # Asegura que 'src' esté en el path
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
@@ -20,40 +19,38 @@ PAGES = {
     9: ("📄 Generar Informe", "forms.pages.09_informe")
 }
 
-# Página por defecto
+# Inicializa página por defecto si no existe en session_state
 if "_page" not in st.session_state:
     st.session_state["_page"] = 1
 
-# Asegura que current siempre sea un int válido
+# Obtener y asegurar tipo entero para current
+data = st.session_state.get("_page", 1)
 try:
-    current = int(st.session_state["_page"])
+    current = int(data)
 except (ValueError, TypeError):
     current = 1
+total = len(PAGES)
 
+# Sidebar estilizado
+st.sidebar.markdown(
+    "<div style='text-align:center; padding:10px;'><h2>🚀 IST Investiga</h2></div>",
+    unsafe_allow_html=True
+)
+#st.sidebar.markdown(f"**Paso {current} de {total}**")
+#st.sidebar.progress(current / total)
+
+# Navegación: radio con valores numéricos y etiquetas con icónos
 page_keys = list(PAGES.keys())
-page_labels = [PAGES[k][0] for k in page_keys]
 def_index = page_keys.index(current)
-
-# …tus imports y configuración anteriores…
-
-# Menú lateral CON option_menu dentro de st.sidebar
-with st.sidebar:
-    selected_label = option_menu(
-        menu_title="🚀 IST Investiga",
-        options=page_labels,        # tus etiquetas con emoji
-        icons=None,
-        menu_icon="cast",
-        default_index=def_index,
-        orientation="vertical",
-        key="page_menu"
-    )
-
-# Convertimos etiqueta a clave numérica
-selected_idx = page_labels.index(selected_label)
-selected = page_keys[selected_idx]
-
-# Guardamos y cargamos la página
+selected = st.sidebar.radio(
+    "Ir a sección",
+    page_keys,
+    format_func=lambda x: PAGES[x][0]
+)
+# Actualiza la página actual
 st.session_state["_page"] = selected
+
+# Import dinámico y ejecución de la página
 module_path = PAGES[selected][1]
 page_module = __import__(module_path, fromlist=["run"])
 page_module.run()

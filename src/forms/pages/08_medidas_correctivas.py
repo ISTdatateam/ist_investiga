@@ -1,9 +1,13 @@
 import streamlit as st
 from forms.data_form import medidas_app_wrapper
+from forms.data_form import init_session_fields
 
 
 def run():
-    # Inicializa session_state si es primera ejecución
+    # -- Sólo inicializar la primera vez --
+    if not st.session_state.get("initialized_fields", False):
+        init_session_fields()
+        st.session_state["initialized_fields"] = True
     # Asegúrate de que la clave edited_measures siempre exista
     if 'edited_measures' not in st.session_state:
         st.session_state['edited_measures'] = []  # o {} según lo que uses

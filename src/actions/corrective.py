@@ -146,7 +146,9 @@ def show_measures_editor():
 
 # Función principal para integrar en botón
 def medidas_app():
-    st.session_state.edited_measures = []
+
+    if not st.session_state.edited_measures:
+        st.session_state.edited_measures = []
 
     if st.button('🛠️ Generar medidas correctivas'):
         if not any(st.session_state.get(k) for k in ('relatof_backup','hechos_backup','arbol')):
