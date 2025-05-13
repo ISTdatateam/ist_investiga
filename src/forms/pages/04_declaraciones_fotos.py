@@ -7,7 +7,6 @@ def run():
     if not st.session_state.get("initialized_fields", False):
         init_session_fields()
         st.session_state["initialized_fields"] = True
-
     st.header("📝 Paso 4 – Declaraciones y Fotos")
 
     with st.form(key="form_declaraciones"):
@@ -70,7 +69,7 @@ def run():
         # Fotos del accidente
         st.file_uploader(
             'Fotos del Lugar',
-            type=['png', 'jpg', 'jpeg', 'pdf'],
+            type=['png', 'jpg', 'jpeg'],
             accept_multiple_files=True,
             key='fotos_accidente'
         )

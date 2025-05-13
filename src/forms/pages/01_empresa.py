@@ -2,15 +2,13 @@ import streamlit as st
 from forms.data_form import load_locales, init_session_fields
 
 
-st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
-
 def run():
     # -- Sólo inicializar la primera vez --
     if not st.session_state.get("initialized_fields", False):
         init_session_fields()
         st.session_state["initialized_fields"] = True
 
-
+    st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
 
     df_locales = load_locales()
     # Limpieza de espacios

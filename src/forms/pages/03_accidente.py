@@ -3,14 +3,11 @@ from forms.data_form import init_session_fields
 from datetime import date, datetime
 
 
-
-
 def run():
     # -- Sólo inicializar la primera vez --
     if not st.session_state.get("initialized_fields", False):
         init_session_fields()
         st.session_state["initialized_fields"] = True
-
     st.header("⚠️ Paso 3 – Detalle Accidente")
 
     # Formulario de detalle de accidente
