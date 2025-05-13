@@ -1,6 +1,7 @@
 import streamlit as st
 from forms.data_form import init_session_fields
 import streamlit.components.v1 as components
+import time
 
 def run():
     # -- Sólo inicializar la primera vez --
@@ -69,5 +70,6 @@ def run():
         # Opcional: mostrar mensaje de éxito
         st.success("Sección Datos Trabajador guardada")
         # Avanzar al siguiente paso
+        time.sleep(1)
         st.session_state['_page'] = 3
         st.rerun()
