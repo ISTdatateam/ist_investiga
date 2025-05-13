@@ -14,7 +14,7 @@ def run():
     # Cada input escribe automáticamente en st.session_state['<key>']
     nombre = st.text_input(
         '👷 Nombre Completo*',
-        value=st.session_state.get('nombre_trabajador', ''),
+        #value=st.session_state.get('nombre_trabajador', ''),
         key='nombre_trabajador',
     )
     rut = st.text_input(
