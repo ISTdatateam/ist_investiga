@@ -41,9 +41,11 @@ def run():
             "hechos",
             st.session_state.relatof
         )
+        st.session_state.setdefault('relatof_backup', st.session_state.get('relatof', ''))
+        st.session_state.setdefault('hechos_backup', st.session_state.get('hechos', ''))
         # Opcional: resetea el flag para forzar una nueva edición si se quiere volver a correr
         st.session_state.form_hechos_guardado = False
-        st.rerun()
+        #st.rerun()
 
     # 5️⃣ Mostrar hechos (si existen) y botón Siguiente
     if st.session_state.hechos:
