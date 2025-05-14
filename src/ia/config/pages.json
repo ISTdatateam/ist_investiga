@@ -38,14 +38,14 @@
         {
             "id": 16,
             "type": "question",
-            "prompt_key": "investiga4",
+            "prompt_key": "investiga5",
             "key": "p6",
             "next_page": 17
         },
         {
             "id": 17,
             "type": "question",
-            "prompt_key": "investiga4",
+            "prompt_key": "investiga6",
             "key": "p7",
             "next_page": 18
         },
