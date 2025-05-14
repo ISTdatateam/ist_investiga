@@ -4,6 +4,7 @@ import streamlit as st
 import pandas as pd
 from datetime import date, datetime
 
+
 @st.cache_data
 def load_locales(path: str = 'SMU-CT.xlsx') -> pd.DataFrame:
     """
@@ -57,7 +58,6 @@ def init_session_fields():
     st.session_state.setdefault('prev_empresa', None)
     st.session_state.setdefault('prev_region', None)
     st.session_state.setdefault('prev_comuna', None)
-
 
 def get_qm():
     """

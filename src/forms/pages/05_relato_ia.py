@@ -21,9 +21,9 @@ La colaboradora antes individualizada quien se desempeña como operador perecibl
 
 def run():
     # 1️⃣  Inicialización de variables de sesión
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
+    #if not st.session_state.get("initialized_fields", False):
+    #    init_session_fields()
+    #    st.session_state["initialized_fields"] = True
 
     # Flags que usaremos
     st.session_state.setdefault("relato_form_guardado", False)

@@ -4,9 +4,9 @@ from forms.data_form import init_session_fields
 
 def run():
     # 1️⃣  Inicialización
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
+    #if not st.session_state.get("initialized_fields", False):
+    #    init_session_fields()
+    #    st.session_state["initialized_fields"] = True
 
     # Asegura la existencia de los flags que usaremos
     st.session_state.setdefault("form_hechos_guardado", False)
@@ -33,13 +33,17 @@ def run():
         st.session_state.relatof = relatof_input
         st.session_state.form_hechos_guardado = True
         st.success("✅ Relato guardado. Ahora puedes identificar los hechos.")
+        print(st.session_state.relatof)
+
+
 
     # 4️⃣ Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
     if st.button("🔎 Identificar hechos", disabled=identificar_disabled):
+        relatof = st.session_state.relatof
         st.session_state.hechos = qm.generar_pregunta(
             "hechos",
-            st.session_state.relatof
+            relatof
         )
         st.session_state.setdefault('relatof_backup', st.session_state.get('relatof', ''))
         st.session_state.setdefault('hechos_backup', st.session_state.get('hechos', ''))

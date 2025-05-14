@@ -1,12 +1,12 @@
 import streamlit as st
-from forms.data_form import init_session_fields
+from src.forms.data_form import init_session_fields
 
 
 def run():
     # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
+    #if not st.session_state.get("initialized_fields", False):
+    #    init_session_fields()
+    #    st.session_state["initialized_fields"] = True
     st.header("📝 Paso 4 – Declaraciones y Fotos")
 
     with st.form(key="form_declaraciones"):

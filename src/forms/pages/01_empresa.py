@@ -1,12 +1,8 @@
 import streamlit as st
-from forms.data_form import load_locales, init_session_fields
-
+from src.forms.data_form import load_locales, init_session_fields
+import time
 
 def run():
-    # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
 
     st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
 
@@ -28,17 +24,17 @@ def run():
     # Actividad, Dirección y Teléfono
     st.session_state.actividad = st.text_input(
         "Actividad Económica*",
-        st.session_state.get('actividad', 'SUPERMERCADO'),
+        st.session_state.get('actividad', ''),
         help="Ej: SUPERMERCADO"
     )
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
-        st.session_state.get('direccion_empresa', 'Av. Irarrazaval 4354'),
+        st.session_state.get('direccion_empresa', ''),
         help="Ej: Av. Irarrázaval 4354"
     )
     st.session_state.telefono = st.text_input(
         "Teléfono Empresa*",
-        st.session_state.get('telefono', '+56912345678'),
+        st.session_state.get('telefono', ''),
         help="Ej: +56912345678"
     )
 
@@ -74,4 +70,5 @@ def run():
     if st.button("💾 Guardar y continuar", use_container_width=True):
         st.success("Sección Empresa y Centro guardada")
         st.session_state['_page'] = 2
-        st.rerun()
+        time.sleep(1)
+        #st.rerun()

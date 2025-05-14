@@ -64,18 +64,29 @@ class QuestionManager:
         self.prompts = ConfigLoader.load_config("prompts.json")["prompts"]
 
     @st.cache_data(show_spinner=False)
-    def generar_pregunta(_self, prompt_key, contexto):
+    def generar_pregunta(_self, prompt_key: str, contexto: str):
         try:
             config = _self.prompts[prompt_key]
-            completion = _self.client.chat.completions.create(
-                model=config["model"],
-                temperature=config.get("temperature", 0.7),
-                top_p=config.get("top_p", 0.3),
-                messages=[
+            # 1️⃣ Construye el payload básico
+            params = {
+                "model": config["model"],
+                "messages": [
                     {"role": "system", "content": config["instruction"]},
                     {"role": "user", "content": contexto}
                 ]
-            )
+            }
+            # 2️⃣ Añade solo lo que exista
+            if "temperature" in config:
+                params["temperature"] = config["temperature"]
+            if "top_p" in config:
+                params["top_p"] = config["top_p"]
+            if "reasoning_effort" in config:
+                params["reasoning_effort"] = config["reasoning_effort"]
+
+
+            # 3️⃣ Llama a la API con **params
+            completion = _self.client.chat.completions.create(**params)
+
             print("------------")
             print("completion", completion)
             print("------------")
@@ -85,6 +96,7 @@ class QuestionManager:
             print("------------")
             print("respuesta gpt", completion.choices[0].message.content.strip())
             print("------------")
+
             return completion.choices[0].message.content.strip()
 
 

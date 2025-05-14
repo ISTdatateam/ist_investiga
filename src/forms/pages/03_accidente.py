@@ -1,15 +1,12 @@
 import streamlit as st
-from forms.data_form import init_session_fields
 from datetime import date, datetime
 
 
 def run():
-    # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
 
     st.header("⚠️ Paso 3 – Detalle Accidente")
+
+    st.write(st.session_state)
 
     # Formulario de detalle de accidente
     with st.form(key="form_accidente"):

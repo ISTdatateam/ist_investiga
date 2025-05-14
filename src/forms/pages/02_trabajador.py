@@ -1,22 +1,20 @@
 import streamlit as st
-from forms.data_form import init_session_fields
 import streamlit.components.v1 as components
 import time
 
 def run():
-    # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
 
     st.header("👷 Paso 2 – Datos Trabajador")
 
     # Cada input escribe automáticamente en st.session_state['<key>']
-    nombre = st.text_input(
-        '👷 Nombre Completo*',
-        #value=st.session_state.get('nombre_trabajador', ''),
-        key='nombre_trabajador',
+    st.write(st.session_state)
+
+    st.session_state.nombre_trabajador = st.text_input(
+        "👷 Nombre Completo*",
+        st.session_state.get('nombre_trabajador', 'completar nombre'),
+        help="Ej: Indica el nombre con dos apellidos"
     )
+
     rut = st.text_input(
         'RUT Trabajador*',
         value=st.session_state.get('rut_trabajador', ''),
@@ -67,9 +65,7 @@ def run():
 
     # Botón que guarda y avanza
     if st.button("💾 Guardar y continuar", use_container_width=True):
-        # Opcional: mostrar mensaje de éxito
         st.success("Sección Datos Trabajador guardada")
-        # Avanzar al siguiente paso
-        time.sleep(1)
         st.session_state['_page'] = 3
+        time.sleep(1)
         st.rerun()
