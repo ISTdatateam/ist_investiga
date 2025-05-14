@@ -1,12 +1,12 @@
 import streamlit as st
-from forms.data_form import get_qm
-from models import causaltree
-from report.generator import InformeGenerator
+from src.forms.data_form import get_qm
+from src.models import causaltree
+from src.report.generator import InformeGenerator
 import os
 import tempfile
 import time
-from models.causaltree import getvalues
-from forms.data_form import init_session_fields
+from src.models.causaltree import getvalues
+from src.forms.data_form import init_session_fields
 from statsmodels.sandbox.regression.try_treewalker import data2
 
 ig = InformeGenerator()

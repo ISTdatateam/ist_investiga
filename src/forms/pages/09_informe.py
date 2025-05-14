@@ -1,6 +1,6 @@
 import streamlit as st
-from forms.data_form import export_docx_wrapper
-from forms.data_form import init_session_fields
+from src.forms.data_form import export_docx_wrapper
+from src.forms.data_form import init_session_fields
 
 
 

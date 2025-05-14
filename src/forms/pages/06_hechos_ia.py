@@ -1,6 +1,6 @@
 import streamlit as st
-from ia.questions import QuestionManager
-from forms.data_form import init_session_fields
+from src.ia.questions import QuestionManager
+from src.forms.data_form import init_session_fields
 
 def run():
     # 1️⃣  Inicialización

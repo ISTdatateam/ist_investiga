@@ -1,6 +1,6 @@
 import streamlit as st
-from forms.data_form import medidas_app_wrapper
-from forms.data_form import init_session_fields
+from src.forms.data_form import medidas_app_wrapper
+from src.forms.data_form import init_session_fields
 
 
 
