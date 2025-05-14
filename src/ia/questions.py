@@ -75,13 +75,18 @@ class QuestionManager:
                     {"role": "user", "content": contexto}
                 ]
             }
-            # 2️⃣ Añade solo lo que exista
-            if "temperature" in config:
-                params["temperature"] = config["temperature"]
-            if "top_p" in config:
-                params["top_p"] = config["top_p"]
-            if "reasoning_effort" in config:
-                params["reasoning_effort"] = config["reasoning_effort"]
+
+            optional_params = [
+                "temperature",
+                "top_p",
+                "max_tokens",
+                "frequency_penalty",
+                "presence_penalty"
+            ]
+
+            for param in optional_params:
+                if param in config:
+                    params[param] = config[param]
 
 
             # 3️⃣ Llama a la API con **params

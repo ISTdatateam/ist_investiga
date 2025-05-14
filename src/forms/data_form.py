@@ -63,8 +63,9 @@ def get_qm():
     """
     Devuelve una instancia de QuestionManager usando la API key.
     """
-    from ia.questions import QuestionManager
+    from src.ia.questions import QuestionManager
     return QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
+
 
 
 def medidas_app_wrapper():
