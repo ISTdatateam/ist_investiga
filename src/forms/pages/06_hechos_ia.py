@@ -63,5 +63,5 @@ def run():
             height=400
         )
         if st.button("Siguiente ▶"):
-            st.session_state["_page"] = 7
+            #st.session_state["_page"] = 7
             st.rerun()

@@ -79,6 +79,6 @@ def run():
     )
     if st.button("💾 Guardar y continuar", use_container_width=True):
         st.success("⚠️ Paso 3 – Detalle Accidente guardado")
-        st.session_state['_page'] = 4
+        #st.session_state['_page'] = 4
         time.sleep(1)
         st.rerun()

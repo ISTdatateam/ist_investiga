@@ -105,7 +105,7 @@ def run():
                 st.warning("¡El árbol está vacío!")
 
             # 3.2) Avanzar de página
-            st.session_state['_page'] = 8
+            #st.session_state['_page'] = 8
             st.rerun()
 
 

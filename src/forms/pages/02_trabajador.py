@@ -82,6 +82,6 @@ def run():
     # Botón que guarda y avanza
     if st.button("💾 Guardar y continuar", use_container_width=True):
         st.success("Sección Datos Trabajador guardada")
-        st.session_state['_page'] = 3
+        #st.session_state['_page'] = 3
         time.sleep(1)
         st.rerun()

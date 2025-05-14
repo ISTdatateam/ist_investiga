@@ -1,9 +1,5 @@
 import streamlit as st
 from src.forms.data_form import medidas_app_wrapper
-from src.forms.data_form import init_session_fields
-
-
-
 
 def run():
     # -- Sólo inicializar la primera vez --
@@ -28,5 +24,5 @@ def run():
 
     # Botón Siguiente para pasar a Generar Informe
     if st.button('Siguiente ▶'):
-        st.session_state['_page'] = 9
+        #st.session_state['_page'] = 9
         st.rerun()

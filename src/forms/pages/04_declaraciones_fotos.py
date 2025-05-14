@@ -79,5 +79,5 @@ def run():
 
         # Botón Siguiente
         if st.form_submit_button('Siguiente ▶'):
-            st.session_state['_page'] = 5
+            #st.session_state['_page'] = 5
             st.rerun()
