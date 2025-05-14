@@ -3,7 +3,8 @@ import time
 from ..data_form import load_locales
 
 def run():
-    st.write(st.session_state)
+    with st.expander("Debug"):
+        st.write(st.session_state)
     st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
 
     df_locales = load_locales()
