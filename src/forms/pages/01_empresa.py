@@ -1,9 +1,9 @@
 import streamlit as st
-from src.forms.data_form import load_locales, init_session_fields
 import time
+from ..data_form import load_locales
 
 def run():
-
+    st.write(st.session_state)
     st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
 
     df_locales = load_locales()
@@ -20,6 +20,7 @@ def run():
     # RUT (solo lectura)
     rut_vals = df_locales[df_locales['Razón Social'] == empresa]['Rut'].unique()
     st.text_input("RUT Empresa*", value=rut_vals[0] if len(rut_vals) else '', disabled=True)
+    st.session_state.rut_empresa = rut_vals
 
     # Actividad, Dirección y Teléfono
     st.session_state.actividad = st.text_input(
@@ -65,10 +66,10 @@ def run():
         value=direc_vals[0] if len(direc_vals) else '',
         disabled=True
     )
+    st.session_state.direccion_centro = direc_vals
 
     # Botón de guardado y avance
     if st.button("💾 Guardar y continuar", use_container_width=True):
+        st.session_state['status_empresa'] = True
         st.success("Sección Empresa y Centro guardada")
-        st.session_state['_page'] = 2
-        time.sleep(1)
         #st.rerun()
