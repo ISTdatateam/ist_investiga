@@ -13,6 +13,9 @@ def run():
 
     st.header("📄 Paso 9 – Generar Informe")
 
+    with st.expander("Debug"):
+        st.write(st.session_state)
+
     # Formulario para datos básicos del informe
     with st.form(key="form_informe"):
         st.text_input(

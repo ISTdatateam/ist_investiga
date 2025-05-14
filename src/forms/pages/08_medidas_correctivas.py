@@ -16,6 +16,9 @@ def run():
 
     st.header("🛠️ Paso 8 – Medidas Correctivas")
 
+    with st.expander("Debug"):
+        st.write(st.session_state)
+
     # Llamada a la función de medidas correctivas
     medidas_app_wrapper()
 

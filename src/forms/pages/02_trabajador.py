@@ -4,7 +4,8 @@ import datetime
 import time
 
 def run():
-    st.write(st.session_state)
+    with st.expander("Debug"):
+        st.write(st.session_state)
     st.header("👷 Paso 2 – Datos Trabajador")
 
     st.session_state.nombre_trabajador = st.text_input(
@@ -76,7 +77,7 @@ def run():
     st.session_state.domicilio = st.text_input(
         'Domicilio*',
         st.session_state.get('domicilio', ''),
-        help="Ej: Indica el domicilio del trabajor"
+        help="Ej: Indica el domicilio del trabajador"
     )
     # Botón que guarda y avanza
     if st.button("💾 Guardar y continuar", use_container_width=True):

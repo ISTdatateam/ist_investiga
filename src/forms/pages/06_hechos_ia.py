@@ -15,6 +15,9 @@ def run():
 
     st.header("🔎 Paso 6 – Hechos IA")
 
+    with st.expander("Debug"):
+        st.write(st.session_state)
+
     qm = QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
 
     # 2️⃣ Formulario = escribe / guarda el relato

@@ -3,7 +3,8 @@ from datetime import date, datetime
 import time
 
 def run():
-    st.write(st.session_state)
+    with st.expander("Debug"):
+        st.write(st.session_state)
     st.header("⚠️ Paso 3 – Detalle Accidente")
 
     st.session_state.fecha_accidente = st.date_input(

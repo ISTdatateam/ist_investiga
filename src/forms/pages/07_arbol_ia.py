@@ -28,6 +28,9 @@ def run():
 
     st.header("🌳 Paso 7 – Árbol de Causas IA")
 
+    with st.expander("Debug"):
+        st.write(st.session_state)
+
     # Generación de árbol de causas
 
     #print("🔍 DEBUG-STATE antes de if not st.session_state.get('arbol'):", {

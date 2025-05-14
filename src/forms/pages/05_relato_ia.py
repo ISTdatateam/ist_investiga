@@ -1,7 +1,8 @@
 #05_relato_ia.py
 import streamlit as st
-from forms.data_form import init_session_fields, get_qm
-from ia.questions import InvestigationApp
+from src.forms.data_form import init_session_fields, get_qm
+from src.ia.questions import InvestigationApp
+from win32comext.shell.shellcon import ASSOCSTR_QUICKTIP
 
 '''
 st.session_state.initial_story = """IDENTIFICACIÓN		1.NOMBRE	MARIA DEL ROSARIO PARRAGUEZ MERINO
@@ -24,6 +25,9 @@ def run():
     #if not st.session_state.get("initialized_fields", False):
     #    init_session_fields()
     #    st.session_state["initialized_fields"] = True
+
+    with st.expander("Debug"):
+        st.write(st.session_state)
 
     # Flags que usaremos
     st.session_state.setdefault("relato_form_guardado", False)
@@ -65,6 +69,8 @@ def run():
         # Construir prompt inicial (solo una vez)
         if not st.session_state.get("initial_story"):
             st.session_state.initial_story = "\n".join([
+                f"Datos generales del accidente",
+                f"Nombre accidentado: {st.session_state.nombre_trabajador}",
                 f"Fecha: {st.session_state.fecha_accidente}",
                 f"Hora: {st.session_state.hora_accidente}",
                 f"Actividad: {st.session_state.actividad}",
@@ -73,6 +79,13 @@ def run():
                 f"Lesión: {st.session_state.naturaleza_lesion}",
                 f"Tarea: {st.session_state.tarea}",
                 f"Operación: {st.session_state.operacion}",
+                f"Declaraciones y testimonios",
+                f"Declaración Accidentado: {st.session_state.declaracion_accidentado}",
+                f"Nombre Testigo 1: {st.session_state.decl1_nombre}",
+                f"Texto Declaración 1: {st.session_state.decl1_texto}",
+                f"Nombre Testigo 2: {st.session_state.decl2_nombre}",
+                f"Texto Declaración 2: {st.session_state.decl2_texto}",
+                f"Contexto y circunstancias",
                 f"Contexto: {st.session_state.contexto}",
                 f"Circunstancias: {st.session_state.circunstancias}",
             ])

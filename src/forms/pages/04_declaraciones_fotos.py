@@ -9,6 +9,9 @@ def run():
     #    st.session_state["initialized_fields"] = True
     st.header("📝 Paso 4 – Declaraciones y Fotos")
 
+    with st.expander("Debug"):
+        st.write(st.session_state)
+
     with st.form(key="form_declaraciones"):
         # Declaración del accidentado
         st.text_area(
