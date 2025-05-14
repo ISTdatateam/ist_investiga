@@ -2,7 +2,7 @@
 import streamlit as st
 from src.forms.data_form import init_session_fields, get_qm
 from src.ia.questions import InvestigationApp
-from win32comext.shell.shellcon import ASSOCSTR_QUICKTIP
+
 
 def run():
     # 1️⃣  Inicialización de variables de sesión

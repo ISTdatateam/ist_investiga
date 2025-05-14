@@ -10,7 +10,7 @@
         {
             "id": 12,
             "type": "question",
-            "prompt_key": "investiga",
+            "prompt_key": "investiga1",
             "key": "p2",
             "next_page": 13
         },
@@ -37,6 +37,20 @@
         },
         {
             "id": 16,
+            "type": "question",
+            "prompt_key": "investiga4",
+            "key": "p6",
+            "next_page": 17
+        },
+        {
+            "id": 17,
+            "type": "question",
+            "prompt_key": "investiga4",
+            "key": "p7",
+            "next_page": 18
+        },
+        {
+            "id": 18,
             "type": "final",
             "next_page": 6
         }
