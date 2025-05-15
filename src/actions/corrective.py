@@ -5,7 +5,7 @@ import json
 from typing import List
 
 # Configuración de modelo y API
-GPT_MODEL = "gpt-4o-mini-2024-07-18"
+GPT_MODEL = "gpt-4.1-mini-2025-04-14"
 API_KEY = "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"
 client = OpenAI(api_key=API_KEY)
 
@@ -21,7 +21,7 @@ def call_ai(prompt: str) -> str:
                 {'role': 'system', 'content': 'Eres un especialista en seguridad laboral con 20 años de experiencia.'},
                 {'role': 'user', 'content': prompt}
             ],
-            temperature=0
+            temperature=0.7
         )
         return resp.choices[0].message.content
     except Exception as e:
@@ -31,7 +31,7 @@ def call_ai(prompt: str) -> str:
 # Función para generar medidas correctivas
 def generate_measures():
     relato_parts: List[str] = []
-    for key in ('relatof_backup', 'hechos_backup', 'arbol'):
+    for key in ('relatof', 'hechos', 'arbol'):
         val = st.session_state.get(key)
         if val:
             if key == 'arbol':

@@ -21,8 +21,8 @@ class InformeGenerator:
         }
         # Datos obligatorios
         self.required_data = {
-            'relato': st.session_state.get('relatof_backup'),
-            'hechos': st.session_state.get('hechos_backup'),
+            'relato': st.session_state.get('relatof'),
+            'hechos': st.session_state.get('hechos'),
             'arbol_dot': st.session_state.get('arbol_dot'),
             'medidas': st.session_state.get('edited_measures', [])
         }
