@@ -97,34 +97,36 @@ def show_measures_editor():
 
     for idx, m in enumerate(st.session_state.edited_measures.copy()):
         with st.expander(f"Medida {idx+1}: {m.get('descripcion','')[:40]}..."):
-            # Campos editables
-            default_tipo = m.get('tipo', tipo_opts[0])
-            idx_tipo = tipo_opts.index(default_tipo) if default_tipo in tipo_opts else 0
-            tipo = st.selectbox("Tipo", tipo_opts, index=idx_tipo, key=f"tipo_{idx}")
 
-            default_prio = m.get('prioridad', prioridad_opts[1])
-            idx_prio = prioridad_opts.index(default_prio) if default_prio in prioridad_opts else 1
-            prioridad = st.selectbox("Prioridad", prioridad_opts, index=idx_prio, key=f"prio_{idx}")
+            col1, col2 = st.columns(2)
+            with col1:
+                default_tipo = m.get('tipo', tipo_opts[0])
+                idx_tipo = tipo_opts.index(default_tipo) if default_tipo in tipo_opts else 0
+                tipo = st.selectbox("Tipo", tipo_opts, index=idx_tipo, key=f"tipo_{idx}")
 
-            default_plazo = m.get('plazo', '')
-            if default_plazo in plazo_opts:
-                idx_plazo = plazo_opts.index(default_plazo)
-            elif 'Corto' in default_plazo:
-                idx_plazo = 0
-            elif 'Mediano' in default_plazo:
-                idx_plazo = 1
-            elif 'Largo' in default_plazo:
-                idx_plazo = 2
-            else:
-                idx_plazo = 0
-            plazo = st.selectbox("Plazo", plazo_opts, index=idx_plazo, key=f"plazo_{idx}")
+                default_plazo = m.get('plazo', '')
+                if default_plazo in plazo_opts:
+                    idx_plazo = plazo_opts.index(default_plazo)
+                elif 'Corto' in default_plazo:
+                    idx_plazo = 0
+                elif 'Mediano' in default_plazo:
+                    idx_plazo = 1
+                elif 'Largo' in default_plazo:
+                    idx_plazo = 2
+                else:
+                    idx_plazo = 0
+                plazo = st.selectbox("Plazo", plazo_opts, index=idx_plazo, key=f"plazo_{idx}")
+
+            with col2:
+                default_prio = m.get('prioridad', prioridad_opts[1])
+                idx_prio = prioridad_opts.index(default_prio) if default_prio in prioridad_opts else 1
+                prioridad = st.selectbox("Prioridad", prioridad_opts, index=idx_prio, key=f"prio_{idx}")
+
+                default_costo = m.get('costo_estimado', '')
+                idx_costo = costo_opts.index(default_costo) if default_costo in costo_opts else 1
+                costo = st.selectbox("Costo estimado", costo_opts, index=idx_costo, key=f"costo_{idx}")
 
             responsable = st.text_input("Responsable", value=m.get('responsable',''), key=f"resp_{idx}")
-
-            default_costo = m.get('costo_estimado', '')
-            idx_costo = costo_opts.index(default_costo) if default_costo in costo_opts else 1
-            costo = st.selectbox("Costo estimado", costo_opts, index=idx_costo, key=f"costo_{idx}")
-
             descripcion = st.text_area("Descripción", value=m.get('descripcion',''), key=f"desc_{idx}", height=120)
 
             cols = st.columns(2)
