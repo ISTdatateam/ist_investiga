@@ -6,7 +6,7 @@ def run():
     if 'edited_measures' not in st.session_state:
         st.session_state['edited_measures'] = []  # o {} según lo que uses
 
-    st.header("🛠️ Paso 8 – Medidas Correctivas")
+    st.header("8 – Medidas Correctivas")
 
     with st.expander("Debug"):
         st.write(st.session_state)

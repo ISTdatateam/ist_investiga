@@ -6,10 +6,10 @@ import time
 def run():
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("👷 Paso 2 – Datos Trabajador")
+    st.header("Paso 2 – Datos Trabajador")
 
     st.session_state.nombre_trabajador = st.text_input(
-        "👷 Nombre Completo*",
+        "Nombre Completo*",
         st.session_state.get('nombre_trabajador', 'completar nombre'),
         help="Ej: Indica el nombre con dos apellidos"
     )

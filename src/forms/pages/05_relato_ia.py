@@ -15,11 +15,11 @@ def run():
     st.session_state.setdefault("contexto", "")
     st.session_state.setdefault("circunstancias", "")
 
-    st.header("🧠 Paso 5 – Construcción del relato")
+    st.header("Paso 5 – Construcción del relato")
 
     qm = get_qm()
 
-    # 2️⃣  Mostrar el formulario para CONTEXTO y CIRCUNSTANCIAS
+    # Mostrar el formulario para CONTEXTO y CIRCUNSTANCIAS
     with st.form("form_relato"):
         contexto_input = st.text_area(
             "Contexto",
@@ -36,14 +36,14 @@ def run():
 
         guardar = st.form_submit_button("Guardar relato")
 
-    # 3️⃣  Acciones tras GUARDAR
+    # Acciones tras GUARDAR
     if guardar:
         st.session_state.contexto = contexto_input
         st.session_state.circunstancias = circunstancias_input
         st.session_state.relato_form_guardado = True
-        st.success("✅ Datos guardados. Ahora puedes generar el relato con IA.")
+        st.success("Datos guardados. Ahora puedes generar el relato con IA.")
 
-    # 4️⃣  Botón externo = Ejecutar IA (solo habilitado si el form está guardado)
+    # Botón externo = Ejecutar IA (solo habilitado si el form está guardado)
     btn_disabled = not st.session_state.relato_form_guardado
     if st.button("Ejecutar IA", disabled=btn_disabled, use_container_width=True):
         # Construir prompt inicial (solo una vez)
@@ -81,7 +81,7 @@ def run():
         st.session_state.relato_form_guardado = False
         st.rerun()
 
-    # 5️⃣  Si ya existe relato, pasamos a la app de investigación
+    # Si ya existe relato, pasamos a la app de investigación
     if st.session_state.get("relatof") and st.session_state.get("invest_active"):
         app = InvestigationApp(st.secrets.get("OPENAI_API_KEY", ""))
         app.run()

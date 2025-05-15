@@ -6,7 +6,7 @@ from src.forms.data_form import init_session_fields
 
 def run():
 
-    st.header("📄 Paso 9 – Generar Informe")
+    st.header("Paso 9 – Generar Informe")
 
     with st.expander("Debug"):
         st.write(st.session_state)

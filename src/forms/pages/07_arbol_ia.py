@@ -22,7 +22,7 @@ def run():
 
     qm = get_qm()
 
-    st.header("🌳 Paso 7 – Árbol de Causas IA")
+    st.header("Paso 7 – Árbol de Causas IA")
 
     with st.expander("Debug"):
         st.write(st.session_state)

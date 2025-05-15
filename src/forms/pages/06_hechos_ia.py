@@ -10,14 +10,14 @@ def run():
     st.session_state.setdefault("relatof", "")
     st.session_state.setdefault("hechos", "")
 
-    st.header("🔎 Paso 6 – Hechos IA")
+    st.header("Paso 6 – Hechos IA")
 
     with st.expander("Debug"):
         st.write(st.session_state)
 
     qm = QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
 
-    # 2️⃣ Formulario = escribe / guarda el relato
+    # Formulario = escribe / guarda el relato
     with st.form("form_hechos"):
         relatof_input = st.text_area(
             "Relato procesado por IA · revísalo antes de guardar",
@@ -28,7 +28,7 @@ def run():
 
         guardar = st.form_submit_button("Guardar relato procesado por IA")
 
-    # 3️⃣ Acciones tras guardar
+    # Acciones tras guardar
     if guardar:
         st.session_state.relatof = relatof_input
         st.session_state.form_hechos_guardado = True
@@ -37,7 +37,7 @@ def run():
 
 
 
-    # 4️⃣ Botón externo = identificar hechos (solo habilitado si ya se guardó)
+    # Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
     if st.button("Identificar hechos con IA", disabled=identificar_disabled, use_container_width=True):
         relatof = st.session_state.relatof

@@ -5,7 +5,7 @@ from ..data_form import load_locales
 def run():
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("📋 Paso 1 – Empresa y Centro de Trabajo")
+    st.header("Paso 1 – Empresa y Centro de Trabajo")
 
     df_locales = load_locales()
     # Limpieza de espacios
@@ -13,7 +13,7 @@ def run():
         df_locales[col] = df_locales[col].str.strip()
 
     # 1. Empresa
-    st.subheader("🏭 1. Empresa")
+    st.subheader("1. Empresa")
     #prepoblar el campo empresa
     razones = sorted(df_locales['Razón Social'].dropna().unique())
     prev_empresa = st.session_state.get("empresa_sel", razones[0] if razones else "")
@@ -57,7 +57,7 @@ def run():
     )
 
     # 2. Centro de Trabajo
-    st.subheader("📍 2. Centro de Trabajo")
+    st.subheader("2. Centro de Trabajo")
     df_emp = df_locales[df_locales['Razón Social'] == empresa]
 
     # prepoblar el campo región
