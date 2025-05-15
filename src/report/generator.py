@@ -6,18 +6,24 @@ from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from datetime import datetime
 from graphviz import Source
-
+from sqlalchemy import false
 
 
 class InformeGenerator:
     def __init__(self):
         # Definición de estilos
         self.estilos = {
-            'main': {'font': 'Cambria', 'size': Pt(16), 'color': RGBColor(87, 35, 100), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.CENTER},
-            'codigo': {'font': 'Cambria', 'size': Pt(10), 'color': RGBColor(79, 11, 123), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.RIGHT},
-            'encabezado1': {'font': 'Cambria', 'size': Pt(14), 'color': RGBColor(0, 0, 0), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.LEFT},
-            'encabezado2': {'font': 'Cambria', 'size': Pt(12), 'color': RGBColor(79, 11, 123), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.LEFT},
-            'tabla_header': {'bg_color': '4F0B7B', 'font_color': RGBColor(255, 255, 255), 'bold': True}
+            'main': {'font': 'Calibri', 'size': Pt(14), 'color': RGBColor(79, 11, 123), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.CENTER},
+            'submain': {'font': 'Calibri', 'size': Pt(12), 'color': RGBColor(0, 0, 0), 'bold': False, 'alignment': WD_ALIGN_PARAGRAPH.CENTER},
+            'destacado': {'font': 'Calibri', 'size': Pt(12), 'color': RGBColor(0, 0, 0), 'bold': True,
+                        'alignment': WD_ALIGN_PARAGRAPH.LEFT},
+            'uso': {'font': 'Calibri', 'size': Pt(11), 'color': RGBColor(0, 0, 0), 'bold': False,
+                          'alignment': WD_ALIGN_PARAGRAPH.JUSTIFY},
+            'encabezado1': {'font': 'Calibri', 'size': Pt(14), 'color': RGBColor(0, 0, 0), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.CENTER},
+            'encabezado2': {'font': 'Calibri', 'size': Pt(12), 'color': RGBColor(79, 11, 123), 'bold': True, 'alignment': WD_ALIGN_PARAGRAPH.LEFT},
+            'encabezado3': {'font': 'Calibri', 'size': Pt(12), 'color': RGBColor(0, 0, 0), 'bold': False,
+                            'alignment': WD_ALIGN_PARAGRAPH.LEFT},
+            'tabla_header': {'bg_color': '4F0B7B', 'font_color': RGBColor(255, 255, 255), 'bold': True},
         }
         # Datos obligatorios
         self.required_data = {
@@ -41,9 +47,13 @@ class InformeGenerator:
             doc = self._create_document()
             self._add_header(doc)
             self._add_title(doc)
+            self._add_portada(doc)
+            self._resumen(doc)
+            self._metodologia(doc)
             self._add_info_empresa_centro(doc)
             self._add_info_trabajador(doc)
             self._add_detalles_accidente(doc)
+            self._fuentes(doc)
             self._add_narrative(doc)
             self._add_facts(doc)
             self._add_cause_tree(doc)
@@ -75,17 +85,85 @@ class InformeGenerator:
             st.error(f"Error cargando logo: {e}")
 
     def _add_title(self, doc):
-        codigo_p = doc.add_paragraph()
-        self._apply_style(codigo_p, 'codigo')
-        codigo_p.add_run(f"Código: {st.session_state.get('informe_numero','ACC-2024-001')}")
         titulo = doc.add_heading('Informe Técnico de Investigación', level=1)
-        self._apply_style(titulo, 'encabezado1')
+        self._apply_style(titulo, 'main')
+        cod_p = doc.add_paragraph()
+        cod_p.add_run(f"Código: {st.session_state.get('informe_numero','ACC-2024-001')}")
+        self._apply_style(cod_p, 'submain')
         doc.add_paragraph()
 
+    def _add_portada(self, doc):
+        fa = st.session_state.get('fecha_accidente')
+        fecha_acc = fa.strftime('%d/%m/%Y') if hasattr(fa, 'strftime') else str(fa)
+        fecha = st.session_state.get('fecha_informe', datetime.today()).strftime('%d/%m/%Y')
+        empresa = st.session_state.get('empresa','')
+        rut_empresa= st.session_state.get('rut_empresa','')
+        self._apply_style(doc.add_paragraph(f'Nombre empresa: {empresa}'),'destacado')
+        self._apply_style(doc.add_paragraph(f'RUT empresa: {rut_empresa}'),'destacado')
+        self._apply_style(doc.add_paragraph(f'Fecha accidente: {fecha_acc}'),'destacado')
+        self._apply_style(doc.add_paragraph(f'Fecha informe: {fecha}'),'destacado')
+        doc.add_paragraph()
+
+    def _resumen(self, doc):
+        heading = doc.add_heading('1. Resumen del informe', level=2)
+        self._apply_style(heading, 'encabezado2')
+        doc.add_paragraph()
+        self._apply_style(doc.add_paragraph("Aquí va el resumen"),'uso')
+        doc.add_page_break()
+
+    def _metodologia(self, doc):
+        # 1) Encabezado
+        heading = doc.add_heading(
+            '2. Metodología de análisis de causalidad',
+            level=2
+        )
+        self._apply_style(heading, 'encabezado2')
+        # 2) Un pequeño espacio
+        doc.add_paragraph()
+        # 3) Lista de textos de cada párrafo
+        textos = [
+            (
+                "La metodología utilizada para la presente investigación "
+                "se basa en la aplicación de un método denominado 'Árbol de Causas', "
+                "el cual, entre otros, es promovido por la OIT y adoptado por el "
+                "Ministerio de Salud de Chile para determinar la causalidad de los "
+                "accidentes de origen laboral que deriven en consecuencias fatales o graves."
+            ),
+            (
+                "Esta metodología permite, mediante un razonamiento lógico y secuencial, "
+                "buscar de manera sistemática los hechos que han estado presentes en la "
+                "ocurrencia del accidente y, como tal, facilitar la identificación de "
+                "oportunidades de mejoramiento en los procesos de la empresa que se "
+                "relacionan principalmente con la situación investigada."
+            ),
+            (
+                "Elemento clave de esta metodología es descartar de forma categórica la "
+                "incorporación de juicios de valor como elementos de análisis, considerándose "
+                "solo aquellos elementos objetivos identificados y precisados durante el "
+                "proceso investigativo —los hechos— que en definitiva corresponden a las "
+                "causas que permitieron la ocurrencia del accidente. Estos hechos se "
+                "representan gráficamente, lo cual facilita reconocer probables "
+                "intervenciones y proponer acciones de mejora."
+            ),
+            (
+                "Es necesario indicar que el modelo utilizado no permite, bajo ningún "
+                "concepto o circunstancia, establecer o determinar culpables o responsables "
+                "del accidente, sino solo facilitar la identificación de oportunidades de "
+                "mejoramiento en los procesos de la empresa."
+            )
+        ]
+        # 4) Crear cada párrafo con estilo 'texto'
+        for t in textos:
+            self._apply_style(doc.add_paragraph(t), 'uso')
+        # 5) Salto de página final
+        doc.add_page_break()
+
     def _add_info_empresa_centro(self, doc):
-        heading = doc.add_heading('1. Información de la Empresa y Centro de Trabajo', level=2)
+        heading = doc.add_heading('3. Antecedentes', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
+        heading = doc.add_heading('3.1. Información de la Empresa y Centro de Trabajo', level=3)
+        self._apply_style(heading, 'encabezado3')
         data = [
             ('Razón Social', st.session_state.get('empresa','')),
             ('RUT Empresa', st.session_state.get('rut_empresa','')),
@@ -102,9 +180,8 @@ class InformeGenerator:
         doc.add_paragraph()
 
     def _add_info_trabajador(self, doc):
-        heading = doc.add_heading('2. Datos del Trabajador', level=2)
-        doc.add_paragraph()
-        self._apply_style(heading, 'encabezado2')
+        heading = doc.add_heading('3.2. Datos del Trabajador', level=3)
+        self._apply_style(heading, 'encabezado3')
         fn = st.session_state.get('fecha_nacimiento')
         fecha_nac = fn.strftime('%d/%m/%Y') if hasattr(fn, 'strftime') else str(fn)
         data = [
@@ -120,12 +197,11 @@ class InformeGenerator:
             ('Domicilio', st.session_state.get('domicilio',''))
         ]
         self._create_info_table(doc, data)
-        doc.add_page_break()
+        doc.add_paragraph()
 
     def _add_detalles_accidente(self, doc):
-        heading = doc.add_heading('3. Detalles del Accidente', level=2)
-        doc.add_paragraph()
-        self._apply_style(heading, 'encabezado2')
+        heading = doc.add_heading('3.3. Datos del Accidente', level=3)
+        self._apply_style(heading, 'encabezado3')
         fa = st.session_state.get('fecha_accidente')
         fecha_acc = fa.strftime('%d/%m/%Y') if hasattr(fa, 'strftime') else str(fa)
         ha = st.session_state.get('hora_accidente')
@@ -144,27 +220,33 @@ class InformeGenerator:
             ('Pérdidas en Proceso', st.session_state.get('perdidas_proceso',''))
         ]
         self._create_info_table(doc, data)
-        doc.add_paragraph()
+        doc.add_page_break()
 
-    def _add_narrative(self, doc):
-        heading = doc.add_heading('4. Relato del Accidente', level=2)
+    def _fuentes(self, doc):
+        heading = doc.add_heading('4. Principales fuentes de información', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
-        p = doc.add_paragraph(self.required_data['relato'])
-        p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        self._apply_style(doc.add_paragraph("Aquí va el resumen"),'uso')
+        doc.add_page_break()
+
+    def _add_narrative(self, doc):
+        heading = doc.add_heading('5. Descripción del Accidente', level=2)
+        doc.add_paragraph()
+        self._apply_style(heading, 'encabezado2')
+        for rel in self.required_data['relato'].split('\n'):
+            if rel.strip():
+                self._apply_style(doc.add_paragraph(rel.strip()), 'uso')
+        #p = doc.add_paragraph(self.required_data['relato'])
+        #self._apply_style(p, 'uso')
         doc.add_page_break()
 
     def _add_facts(self, doc):
-        heading = doc.add_heading('5. Hechos Establecidos', level=2)
+        heading = doc.add_heading('6. Principales hechos identificados', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         for hecho in self.required_data['hechos'].split('\n'):
             if hecho.strip():
-                p = doc.add_paragraph()
-                p.paragraph_format.left_indent = Cm(0.5)
-                run = p.add_run(hecho.strip())
-                run.font.name = 'Calibri'
-                run.font.size = Pt(11)
+                self._apply_style(doc.add_paragraph(hecho.strip()), 'uso')
         doc.add_page_break()
 
     def _generate_tree_image(self, output_path):
@@ -173,9 +255,12 @@ class InformeGenerator:
         graph.render(output_path, cleanup=True)
 
     def _add_cause_tree(self, doc):
-        heading = doc.add_heading('6. Análisis de mediante arbol de causas', level=2)
+        heading = doc.add_heading('7. Arbol de causas', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
+        self._apply_style(doc.add_paragraph("Acorde a la información señalada y al análisis de ella, es posible estructurar los hechos identificados según el siguiente árbol de causas:"),'uso')
+        doc.add_paragraph()
+
         if st.session_state.get('cause_tree_png'):
             doc.add_picture(st.session_state['cause_tree_png'], width=Cm(16))
         else:
@@ -192,7 +277,7 @@ class InformeGenerator:
         medidas = self.required_data.get('medidas', [])
         if not medidas:
             return
-        heading = doc.add_heading('7. Medidas Correctivas', level=2)
+        heading = doc.add_heading('8. Prescripciones', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         # Calcular ancho disponible de la página
@@ -239,12 +324,7 @@ class InformeGenerator:
         # 3) Fecha del informe — alineada a la derecha
         doc.add_paragraph()
         doc.add_paragraph()
-        fecha = st.session_state.get(
-            'fecha_informe',
-            datetime.today()
-        ).strftime('%d/%m/%Y')
-        p_fecha = doc.add_paragraph(f'Fecha informe: {fecha}')
-        p_fecha.alignment = WD_ALIGN_PARAGRAPH.LEFT
+
 
     def _create_info_table(self, doc, data):
         table = doc.add_table(rows=len(data), cols=2)

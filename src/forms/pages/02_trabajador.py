@@ -72,7 +72,7 @@ def run():
     st.session_state.antiguedad_cargo = st.text_input(
         "Antigüedad en el cargo*",
         st.session_state.get('antiguedad_cargo', ''),
-        help="Ej: Indica antigüedad en el cargo del trabajor"
+        help="Ej: Este dato debe considerar la antigüedad en el cargo en la empresa, más la antigüedad ejerciendo el mismo cargo en otras empresas."
     )
     st.session_state.domicilio = st.text_input(
         'Domicilio*',

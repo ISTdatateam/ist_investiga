@@ -153,7 +153,7 @@ def medidas_app():
         st.session_state.edited_measures = []
 
     if st.button('🛠️ Generar medidas correctivas'):
-        if not any(st.session_state.get(k) for k in ('relatof_backup','hechos_backup','arbol')):
+        if not any(st.session_state.get(k) for k in ('relatof','hechos','arbol')):
             print("Faltan datos")
             st.warning('Faltan datos: asegúrate de tener relato, hechos y arbol guardados.')
             status = False

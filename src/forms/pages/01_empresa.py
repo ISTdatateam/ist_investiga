@@ -40,18 +40,24 @@ def run():
         st.session_state["rut_empresa"] = rut_vals[0]
 
     # Actividad, Dirección y Teléfono
-
+    if not st.session_state.actividad:
+        st.session_state.actividad = "Supermercados, CIIU 62103"
     st.session_state.actividad = st.text_input(
         "Actividad Económica*",
-        value="62103 Supermercados",
+        st.session_state.get('actividad', ''),
         help="Ej: SUPERMERCADO"
     )
 
+    if not st.session_state.direccion_empresa:
+        st.session_state.direccion_empresa = "Cerro El Plomo 5680 piso 10"
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
         st.session_state.get('direccion_empresa', ''),
         help="Ej: Av. Irarrázaval 4354"
     )
+
+    if not st.session_state.telefono:
+        st.session_state.telefono = "+56963350836"
     st.session_state.telefono = st.text_input(
         "Teléfono Empresa*",
         st.session_state.get('telefono', ''),
