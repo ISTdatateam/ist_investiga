@@ -29,7 +29,7 @@ def run():
             key='fecha_informe'
         )
         # Capturamos si el usuario hace submit
-        submitted = st.form_submit_button('Generar Informe', use_container_width=True)
+        submitted = st.form_submit_button('Generar Informe', use_container_width=True, clear_on_submit=False)
 
     # Ejecutar generación fuera del bloque form
     if submitted:
