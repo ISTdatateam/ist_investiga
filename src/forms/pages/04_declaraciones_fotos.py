@@ -7,7 +7,7 @@ def run():
     #if not st.session_state.get("initialized_fields", False):
     #    init_session_fields()
     #    st.session_state["initialized_fields"] = True
-    st.header("📝 Paso 4 – Declaraciones y Fotos")
+    st.header("Paso 4 – Declaraciones y Fotos")
 
     with st.expander("Debug"):
         st.write(st.session_state)
@@ -76,7 +76,7 @@ def run():
     )
 
     # Botón Siguiente
-    if st.button('Siguiente ▶'):
+    if st.button('Guardar datos'):
         st.success("Sección Declaraciones guardada")
         #st.session_state['_page'] = 5
         st.rerun()

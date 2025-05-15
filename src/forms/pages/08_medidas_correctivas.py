@@ -6,14 +6,16 @@ def run():
     if 'edited_measures' not in st.session_state:
         st.session_state['edited_measures'] = []  # o {} según lo que uses
 
-    st.header("🛠️ Paso 8 – Medidas Correctivas")
+    st.header("8 – Medidas Correctivas")
 
     with st.expander("Debug"):
         st.write(st.session_state)
 
     # Llamada a la función de medidas correctivas
-    medidas_app_wrapper()
+    status = medidas_app_wrapper()
+    if status:
+        st.success("Se generaron las medidas correctamente.")
 
-    # Botón Siguiente para pasar a Generar Informe
-    if st.button('Siguiente ▶'):
-        st.rerun()
+    if st.button("Guardar medidas correctivas", disabled = not status, use_container_width=True):
+        st.success("Se guardaron las medidas correctamente.")
+

@@ -6,10 +6,10 @@ import time
 def run():
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("👷 Paso 2 – Datos Trabajador")
+    st.header("Paso 2 – Datos Trabajador")
 
     st.session_state.nombre_trabajador = st.text_input(
-        "👷 Nombre Completo*",
+        "Nombre Completo*",
         st.session_state.get('nombre_trabajador', 'completar nombre'),
         help="Ej: Indica el nombre con dos apellidos"
     )
@@ -80,7 +80,7 @@ def run():
         help="Ej: Indica el domicilio del trabajador"
     )
     # Botón que guarda y avanza
-    if st.button("💾 Guardar y continuar", use_container_width=True):
+    if st.button("Guardar datos", use_container_width=True):
         st.success("Sección Datos Trabajador guardada")
         #st.session_state['_page'] = 3
         time.sleep(1)

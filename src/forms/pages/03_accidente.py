@@ -5,10 +5,10 @@ import time
 def run():
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("⚠️ Paso 3 – Detalle Accidente")
+    st.header("Paso 3 – Detalle Accidente")
 
     st.session_state.fecha_accidente = st.date_input(
-        '⚠️ Fecha del Accidente*',
+        'Fecha del Accidente*',
         st.session_state.get('fecha_accidente', None)
     )
     st.session_state.hora_accidente = st.time_input(
@@ -77,8 +77,8 @@ def run():
         index=0 if st.session_state.get('perdidas_proceso') == 'SI' else 1,
         horizontal=True
     )
-    if st.button("💾 Guardar y continuar", use_container_width=True):
-        st.success("⚠️ Paso 3 – Detalle Accidente guardado")
+    if st.button("Guardar datos", use_container_width=True):
+        st.success("⚠Paso 3 – Detalle Accidente guardado")
         #st.session_state['_page'] = 4
         time.sleep(1)
         st.rerun()

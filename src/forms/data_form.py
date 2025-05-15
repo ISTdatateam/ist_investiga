@@ -73,7 +73,8 @@ def medidas_app_wrapper():
     Wrapper para llamar a la función de medidas correctivas.
     """
     from src.actions.corrective import medidas_app
-    medidas_app()
+    status = medidas_app()
+    return status
 
 
 def export_docx_wrapper():

@@ -10,14 +10,14 @@ def run():
     st.session_state.setdefault("relatof", "")
     st.session_state.setdefault("hechos", "")
 
-    st.header("🔎 Paso 6 – Hechos IA")
+    st.header("Paso 6 – Hechos IA")
 
     with st.expander("Debug"):
         st.write(st.session_state)
 
     qm = QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
 
-    # 2️⃣ Formulario = escribe / guarda el relato
+    # Formulario = escribe / guarda el relato
     with st.form("form_hechos"):
         relatof_input = st.text_area(
             "Relato procesado por IA · revísalo antes de guardar",
@@ -26,9 +26,9 @@ def run():
             height=400
         )
 
-        guardar = st.form_submit_button("💾 Guardar relato")
+        guardar = st.form_submit_button("Guardar relato procesado por IA")
 
-    # 3️⃣ Acciones tras guardar
+    # Acciones tras guardar
     if guardar:
         st.session_state.relatof = relatof_input
         st.session_state.form_hechos_guardado = True
@@ -37,9 +37,9 @@ def run():
 
 
 
-    # 4️⃣ Botón externo = identificar hechos (solo habilitado si ya se guardó)
+    # Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
-    if st.button("🔎 Identificar hechos", disabled=identificar_disabled):
+    if st.button("Identificar hechos con IA", disabled=identificar_disabled, use_container_width=True):
         relatof = st.session_state.relatof
         st.session_state.hechos = qm.generar_pregunta(
             "hechos",
@@ -47,7 +47,7 @@ def run():
         )
         st.session_state.form_hechos_guardado = False
 
-    # 5️⃣ Mostrar hechos (si existen) y botón Siguiente
+    #Mostrar hechos (si existen) y botón Siguiente
     if st.session_state.hechos:
         st.text_area(
             "Hechos identificados",
@@ -55,6 +55,6 @@ def run():
             key="hechos_view",
             height=400
         )
-        if st.button("Siguiente ▶"):
+        if st.button("Guardar hechos generados por IA", use_container_width=True):
             st.session_state.hechos = st.session_state.get('hechos_view', '')
             st.rerun()
