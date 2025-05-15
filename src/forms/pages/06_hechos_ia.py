@@ -3,10 +3,7 @@ from src.ia.questions import QuestionManager
 from src.forms.data_form import init_session_fields
 
 def run():
-    # 1️⃣  Inicialización
-    #if not st.session_state.get("initialized_fields", False):
-    #    init_session_fields()
-    #    st.session_state["initialized_fields"] = True
+
 
     # Asegura la existencia de los flags que usaremos
     st.session_state.setdefault("form_hechos_guardado", False)
@@ -48,11 +45,7 @@ def run():
             "hechos",
             relatof
         )
-        st.session_state.setdefault('relatof_backup', st.session_state.get('relatof', ''))
-        st.session_state.setdefault('hechos_backup', st.session_state.get('hechos', ''))
-        # Opcional: resetea el flag para forzar una nueva edición si se quiere volver a correr
         st.session_state.form_hechos_guardado = False
-        #st.rerun()
 
     # 5️⃣ Mostrar hechos (si existen) y botón Siguiente
     if st.session_state.hechos:
@@ -63,5 +56,5 @@ def run():
             height=400
         )
         if st.button("Siguiente ▶"):
-            #st.session_state["_page"] = 7
+            st.session_state.hechos = st.session_state.get('hechos_view', '')
             st.rerun()

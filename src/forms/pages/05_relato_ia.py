@@ -5,10 +5,6 @@ from src.ia.questions import InvestigationApp
 
 
 def run():
-    # 1️⃣  Inicialización de variables de sesión
-    #if not st.session_state.get("initialized_fields", False):
-    #    init_session_fields()
-    #    st.session_state["initialized_fields"] = True
 
     with st.expander("Debug"):
         st.write(st.session_state)

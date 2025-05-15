@@ -5,11 +5,6 @@ from src.forms.data_form import init_session_fields
 
 
 def run():
-    # Inicializa session_state si es primera ejecución
-    # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
 
     st.header("📄 Paso 9 – Generar Informe")
 

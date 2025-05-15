@@ -19,10 +19,6 @@ print("OJO AQUI! INICIO", getvalues(st.session_state.relatof,st.session_state.he
 def run():
     # Inicializa session_state
     # -- Sólo inicializar la primera vez --
-    if not st.session_state.get("initialized_fields", False):
-        init_session_fields()
-        st.session_state["initialized_fields"] = True
-
 
     qm = get_qm()
 
@@ -31,44 +27,23 @@ def run():
     with st.expander("Debug"):
         st.write(st.session_state)
 
-    # Generación de árbol de causas
-
-    #print("🔍 DEBUG-STATE antes de if not st.session_state.get('arbol'):", {
-    #    'relatof': bool(st.session_state.get('relatof')),
-    #    'hechos': bool(st.session_state.get('hechos'))
-    #})
-    # 1) Al principio del run, respalda si aún no lo has hecho:
-    st.session_state.setdefault('relatof_backup', st.session_state.get('relatof', ''))
-    st.session_state.setdefault('hechos_backup',  st.session_state.get('hechos',  ''))
 
     # 2) Ya puedes trabajar con esos backups seguros:
-    relatof_cuidado = st.session_state['relatof_backup']
-    hechos_cuidado  = st.session_state['hechos_backup']
+    relatof = st.session_state.get('relatof')
+    hechos  = st.session_state.get('hechos')
 
     if not st.session_state.get('arbol'):
         if st.button('🌳 Generar Árbol', use_container_width=True):
             prompt = (
-                f"Relato: {relatof_cuidado}\n"
-                f"Hechos: {hechos_cuidado}"
+                f"Relato: {relatof}\n"
+                f"Hechos: {hechos}"
             )
             st.session_state.arbol = qm.generar_pregunta('arbol_causas', prompt)
             st.session_state.arbol_from_5q = st.session_state.arbol
-            #print("🔍 DEBUG-STATE despues de crear arbol_from_5q:", {
-            #    'relatof': bool(st.session_state.get('relatof')),
-            #    'hechos': bool(st.session_state.get('hechos'))
-            #})
-            #print(st.session_state.relatof)
-            #print(st.session_state.hechos)
+
 
             st.rerun()
     else:
-        # Mostrar JSON bruto
-        #st.subheader("Árbol de Causas")
-        #st.json(st.session_state.arbol)
-
-        # Inserta árbol interactivo
-        #st.markdown("---")
-        #st.subheader("🔗 Árbol de Causas Interactivo")
         cst.main()
 
     # Botones de navegación
@@ -81,11 +56,7 @@ def run():
     with cols[1]:
         # El botón sólo se renderiza si ya existe el árbol
         if st.session_state.get('arbol') and st.button('Siguiente ▶', use_container_width=True):
-            print("OJO AQUI! FIN",
-                  getvalues(
-                      st.session_state['relatof_backup'],
-                      st.session_state['hechos_backup'])
-                  )
+
             if st.session_state.nodes:
                 # 3.1) Generar DOT y exportar imagen
                 cst.generate_dot()
