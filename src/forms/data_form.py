@@ -80,5 +80,5 @@ def export_docx_wrapper():
     """
     Wrapper para exportar el informe a DOCX.
     """
-    from report.generator import export_to_docx
+    from src.report.generator import export_to_docx
     export_to_docx()
