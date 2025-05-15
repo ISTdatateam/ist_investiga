@@ -12,7 +12,7 @@ def run():
         st.write(st.session_state)
 
     # Formulario para datos básicos del informe
-    with st.form(key="form_informe"):
+    with st.form(key="form_informe", clear_on_submit=False):
         st.text_input(
             'Informe N°*',
             value=st.session_state.informe_numero,
@@ -29,7 +29,7 @@ def run():
             key='fecha_informe'
         )
         # Capturamos si el usuario hace submit
-        submitted = st.form_submit_button('Generar Informe', use_container_width=True, clear_on_submit=False)
+        submitted = st.form_submit_button('Generar Informe', use_container_width=True)
 
     # Ejecutar generación fuera del bloque form
     if submitted:
