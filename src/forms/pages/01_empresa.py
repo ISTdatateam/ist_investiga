@@ -116,6 +116,6 @@ def run():
         st.session_state["direccion_centro"] = direc_vals[0]
 
     # Botón de guardado y avance
-    if st.button("💾 Guardar y continuar", use_container_width=True):
+    if st.button("Guardar datos", use_container_width=True):
         st.success("Sección Empresa y Centro guardada")
         st.rerun()

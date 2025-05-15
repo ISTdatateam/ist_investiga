@@ -29,7 +29,7 @@ def run():
             key='fecha_informe'
         )
         # Capturamos si el usuario hace submit
-        submitted = st.form_submit_button('📄 Generar Informe')
+        submitted = st.form_submit_button('Generar Informe', use_container_width=True)
 
     # Ejecutar generación fuera del bloque form
     if submitted:
@@ -40,7 +40,7 @@ def run():
         try:
             # Llamada al wrapper que genera y despliega el documento
             export_docx_wrapper()
-            st.success('✅ Informe generado correctamente')
+            st.success('Informe generado correctamente')
         except Exception as e:
-            st.error(f'❌ Error al generar informe: {e}')
+            st.error(f'Error al generar informe: {e}')
 

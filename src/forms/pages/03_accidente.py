@@ -77,7 +77,7 @@ def run():
         index=0 if st.session_state.get('perdidas_proceso') == 'SI' else 1,
         horizontal=True
     )
-    if st.button("💾 Guardar y continuar", use_container_width=True):
+    if st.button("Guardar datos", use_container_width=True):
         st.success("⚠️ Paso 3 – Detalle Accidente guardado")
         #st.session_state['_page'] = 4
         time.sleep(1)

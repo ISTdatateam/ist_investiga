@@ -12,13 +12,10 @@ def run():
         st.write(st.session_state)
 
     # Llamada a la función de medidas correctivas
-    medidas_app_wrapper()
+    status = medidas_app_wrapper()
+    if status:
+        st.success("Se generaron las medidas correctamente.")
 
-    # Mostrar medidas editadas si existen
-    #if 'edited_measures' in st.session_state:
-    #    st.json(st.session_state.edited_measures)
+    if st.button("Guardar medidas correctivas", disabled = not status, use_container_width=True):
+        st.success("Se guardaron las medidas correctamente.")
 
-    # Botón Siguiente para pasar a Generar Informe
-    if st.button('Siguiente ▶'):
-        #st.session_state['_page'] = 9
-        st.rerun()

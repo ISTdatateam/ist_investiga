@@ -34,7 +34,7 @@ def run():
             height=150
         )
 
-        guardar = st.form_submit_button("💾 Guardar datos")
+        guardar = st.form_submit_button("Guardar relato")
 
     # 3️⃣  Acciones tras GUARDAR
     if guardar:
@@ -45,7 +45,7 @@ def run():
 
     # 4️⃣  Botón externo = Ejecutar IA (solo habilitado si el form está guardado)
     btn_disabled = not st.session_state.relato_form_guardado
-    if st.button("🧠 Ejecutar IA", disabled=btn_disabled):
+    if st.button("Ejecutar IA", disabled=btn_disabled, use_container_width=True):
         # Construir prompt inicial (solo una vez)
         if not st.session_state.get("initial_story"):
             st.session_state.initial_story = "\n".join([

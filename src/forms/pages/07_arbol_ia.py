@@ -33,7 +33,7 @@ def run():
     hechos  = st.session_state.get('hechos')
 
     if not st.session_state.get('arbol'):
-        if st.button('🌳 Generar Árbol', use_container_width=True):
+        if st.button('Generar Árbol', use_container_width=True):
             prompt = (
                 f"Relato: {relatof}\n"
                 f"Hechos: {hechos}"
@@ -46,37 +46,29 @@ def run():
     else:
         cst.main()
 
-    # Botones de navegación
-    cols = st.columns([1, 2])
-    with cols[0]:
-        if st.button('◀ Atrás', use_container_width=True):
-            st.session_state['_page'] = 6
-            st.rerun()
+    # El botón sólo se renderiza si ya existe el árbol
+    if st.session_state.get('arbol') and st.button('Guardar Arbol', use_container_width=True):
 
-    with cols[1]:
-        # El botón sólo se renderiza si ya existe el árbol
-        if st.session_state.get('arbol') and st.button('Siguiente ▶', use_container_width=True):
+        if st.session_state.nodes:
+            # 3.1) Generar DOT y exportar imagen
+            cst.generate_dot()
+            tmp = tempfile.mkdtemp()
+            img_path = os.path.join(tmp, "cause_tree")
+            ig._generate_tree_image(img_path)  # crea cause_tree.png
 
-            if st.session_state.nodes:
-                # 3.1) Generar DOT y exportar imagen
-                cst.generate_dot()
-                tmp = tempfile.mkdtemp()
-                img_path = os.path.join(tmp, "cause_tree")
-                ig._generate_tree_image(img_path)  # crea cause_tree.png
-
-                png_file = f"{img_path}.png"
-                if os.path.exists(png_file):
-                    st.session_state.cause_tree_png = png_file
-                    st.success("Árbol exportado y guardado!")
-                    # Cambiamos de herramienta y avanzamos
-                    st.session_state.selected_tool = "Ficha"
-                else:
-                    st.error("No se encontró el PNG generado.")
+            png_file = f"{img_path}.png"
+            if os.path.exists(png_file):
+                st.session_state.cause_tree_png = png_file
+                st.success("Árbol exportado y guardado!")
+                # Cambiamos de herramienta y avanzamos
+                st.session_state.selected_tool = "Ficha"
             else:
-                st.warning("¡El árbol está vacío!")
+                st.error("No se encontró el PNG generado.")
+        else:
+            st.warning("¡El árbol está vacío!")
 
-            # 3.2) Avanzar de página
-            #st.session_state['_page'] = 8
-            st.rerun()
+        # 3.2) Avanzar de página
+        #st.session_state['_page'] = 8
+        st.rerun()
 
 

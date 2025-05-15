@@ -76,7 +76,7 @@ def run():
     )
 
     # Botón Siguiente
-    if st.button('Siguiente ▶'):
+    if st.button('Guardar datos'):
         st.success("Sección Declaraciones guardada")
         #st.session_state['_page'] = 5
         st.rerun()
