@@ -14,11 +14,6 @@ def run():
     # Llamada a la función de medidas correctivas
     medidas_app_wrapper()
 
-    # Mostrar medidas editadas si existen
-    #if 'edited_measures' in st.session_state:
-    #    st.json(st.session_state.edited_measures)
-
     # Botón Siguiente para pasar a Generar Informe
     if st.button('Siguiente ▶'):
-        #st.session_state['_page'] = 9
         st.rerun()

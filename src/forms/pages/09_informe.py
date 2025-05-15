@@ -33,9 +33,6 @@ def run():
 
     # Ejecutar generación fuera del bloque form
     if submitted:
-        # Referencias de estado preservadas
-        print("Relato (backup):", st.session_state.relatof_backup)
-        print("Hechos (backup):", st.session_state.hechos_backup)
 
         try:
             # Llamada al wrapper que genera y despliega el documento

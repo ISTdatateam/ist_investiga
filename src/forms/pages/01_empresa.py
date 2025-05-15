@@ -40,11 +40,13 @@ def run():
         st.session_state["rut_empresa"] = rut_vals[0]
 
     # Actividad, Dirección y Teléfono
+
     st.session_state.actividad = st.text_input(
         "Actividad Económica*",
-        st.session_state.get('actividad', ''),
+        value="62103 Supermercados",
         help="Ej: SUPERMERCADO"
     )
+
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
         st.session_state.get('direccion_empresa', ''),
