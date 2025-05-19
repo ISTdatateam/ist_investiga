@@ -61,10 +61,10 @@ def init_session_fields():
 
 def get_qm():
     """
-    Devuelve una instancia de QuestionManager usando la API key.
+    Devuelve una instancia de QuestionManager usando los secrets completos
     """
     from src.ia.questions import QuestionManager
-    return QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
+    return QuestionManager(st.secrets)
 
 
 
@@ -72,6 +72,8 @@ def medidas_app_wrapper():
     """
     Wrapper para llamar a la función de medidas correctivas.
     """
+    from src.ia.questions import QuestionManager
+    qm = QuestionManager(st.secrets)
     from src.actions.corrective import medidas_app
     status = medidas_app()
     return status
@@ -81,5 +83,7 @@ def export_docx_wrapper():
     """
     Wrapper para exportar el informe a DOCX.
     """
+    from src.ia.questions import QuestionManager
+    qm = QuestionManager(st.secrets)
     from src.report.generator import export_to_docx
     export_to_docx()

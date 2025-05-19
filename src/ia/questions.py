@@ -59,54 +59,61 @@ class ConfigLoader:
             st.stop()
 
 class QuestionManager:
-    def __init__(self, api_key):
-        self.client = OpenAI(api_key=api_key)
+    def __init__(self, secrets):
+        self.clients = {
+            'openai': OpenAI(
+                api_key=secrets['OPENAI_API_KEY']),
+            'deepseek': OpenAI(
+                api_key=secrets['DEEPSEEK_API_KEY'],
+                base_url="https://api.deepseek.com/v1"
+            )
+        }
         self.prompts = ConfigLoader.load_config("prompts.json")["prompts"]
+
+    def _select_client(self, config):
+        """Selecciona el cliente basado en la configuración"""
+        provider = config.get("provider",
+                      "deepseek" if "deepseek" in config["model"].lower() else "openai")
+        return self.clients[provider]
+
 
     @st.cache_data(show_spinner=False)
     def generar_pregunta(_self, prompt_key: str, contexto: str):
         try:
             config = _self.prompts[prompt_key]
-            # 1️⃣ Construye el payload básico
-            params = {
-                "model": config["model"],
-                "messages": [
-                    {"role": "system", "content": config["instruction"]},
-                    {"role": "user", "content": contexto}
-                ]
-            }
+            client = _self._select_client(config)
 
-            optional_params = [
-                "temperature",
-                "top_p",
-                "max_tokens",
-                "frequency_penalty",
-                "presence_penalty"
+            messages = [
+                {"role": "system", "content": config["instruction"]},
+                {"role": "user", "content": contexto}
             ]
 
-            for param in optional_params:
-                if param in config:
-                    params[param] = config[param]
+            params = {
+                "model": config["model"],
+                "messages": messages,
+                **{k: v for k, v in config.items() if k in [
+                    "temperature", "top_p", "max_tokens",
+                    "frequency_penalty", "presence_penalty", "response_format"
+                ]}
+            }
 
+            completion = client.chat.completions.create(**params)
 
-            # 3️⃣ Llama a la API con **params
-            completion = _self.client.chat.completions.create(**params)
-
-            print("------------")
-            print("completion", completion)
-            print("------------")
-            print("prompt", config["instruction"])
-            print("------------")
-            print("contexto", contexto)
-            print("------------")
-            print("respuesta gpt", completion.choices[0].message.content.strip())
-            print("------------")
+            # Debug mejorado
+            if st.secrets.get("DEBUG", False):
+                debug_info = {
+                    "model": config["model"],
+                    "provider": "deepseek" if "deepseek" in config["model"].lower() else "openai",
+                    "prompt": config["instruction"],
+                    "contexto": contexto[:500] + "..." if len(contexto) > 500 else contexto,
+                    "respuesta": completion.choices[0].message.content.strip()[:1000] + "..."
+                }
+                st.write(f"```json\n{json.dumps(debug_info, indent=2)}\n```")
 
             return completion.choices[0].message.content.strip()
 
-
         except Exception as e:
-            st.error(f"Error generando pregunta '{prompt_key}': {e}")
+            st.error(f"Error generando '{prompt_key}': {str(e)}")
             return ""
 
 class PageManager:
@@ -136,10 +143,10 @@ class NavigationHandler:
         return nav_action
 
 class InvestigationApp:
-    def __init__(self, api_key):
+    def __init__(self, secrets):
         self.state_manager = StateManager()
         self.state_manager.initialize_session_state()
-        self.question_manager = QuestionManager(api_key)
+        self.question_manager = QuestionManager(secrets)
         self.page_manager = PageManager()
         self.nav_handler = NavigationHandler()
         self.page_handlers = {

@@ -1,9 +1,10 @@
 import streamlit as st
 from src.ia.questions import QuestionManager
-from src.forms.data_form import init_session_fields
+from src.forms.data_form import get_qm
 
 def run():
 
+    qm = get_qm()
 
     # Asegura la existencia de los flags que usaremos
     st.session_state.setdefault("form_hechos_guardado", False)
@@ -14,8 +15,6 @@ def run():
 
     with st.expander("Debug"):
         st.write(st.session_state)
-
-    qm = QuestionManager(st.secrets.get("OPENAI_API_KEY", ""))
 
     # Formulario = escribe / guarda el relato
     with st.form("form_hechos"):
@@ -40,12 +39,21 @@ def run():
     # Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
     if st.button("Identificar hechos con IA", disabled=identificar_disabled, use_container_width=True):
-        relatof = st.session_state.relatof
-        st.session_state.hechos = qm.generar_pregunta(
-            "hechos",
-            relatof
-        )
-        st.session_state.form_hechos_guardado = False
+        try:
+            relatof = st.session_state.relatof
+            st.session_state.hechos = qm.generar_pregunta(
+                "hechos_deepseek",
+                relatof
+            )
+            st.session_state.form_hechos_guardado = False
+        except Exception as e:
+            if "Insufficient Balance" in str(e):
+                st.warning("Usando fallback a OpenAI por saldo insuficiente en DeepSeek")
+                st.session_state.hechos = qm.generar_pregunta("hechos_openai", relatof)
+            else:
+                raise e
+
+
 
     #Mostrar hechos (si existen) y botón Siguiente
     if st.session_state.hechos:

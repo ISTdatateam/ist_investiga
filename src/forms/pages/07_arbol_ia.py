@@ -12,10 +12,6 @@ from statsmodels.sandbox.regression.try_treewalker import data2
 ig = InformeGenerator()
 cst = causaltree
 
-print("OJO AQUI! INICIO", getvalues(st.session_state.relatof,st.session_state.hechos))
-
-
-
 def run():
     # Inicializa session_state
     # -- Sólo inicializar la primera vez --
