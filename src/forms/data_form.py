@@ -24,7 +24,7 @@ def init_session_fields():
     numeric = {'edad': 18}
     # Fechas por defecto
     dates = {
-        'fecha_nacimiento': date.today(),
+        'fecha_nacimiento': date(2008, 12, 31),
         'fecha_accidente': date.today(),
         'fecha_informe': date.today()
     }

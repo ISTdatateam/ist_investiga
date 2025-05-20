@@ -24,7 +24,9 @@ def run():
 
     st.session_state.fecha_accidente = st.date_input(
         'Fecha del Accidente*',
-        st.session_state.get('fecha_accidente', None)
+        st.session_state.get('fecha_accidente', None),
+        max_value = date.today(),
+        format = "DD/MM/YYYY"
     )
     st.session_state.hora_accidente = st.time_input(
         'Hora del Accidente*',
