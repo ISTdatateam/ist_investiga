@@ -32,7 +32,7 @@ def init_session_fields():
     times = {'hora_accidente': datetime.now().time()}
     # Campos de texto
     texts = [
-        'empresa','rut_empresa','actividad','direccion_empresa','telefono',
+        'empresa','rut_empresa','actividad','direccion_empresa','telefono', 'representante_legal',
         'region','comuna','nombre_local','direccion_centro','nombre_trabajador',
         'rut_trabajador','nacionalidad','estado_civil','contrato',
         'cargo_trabajador','antiguedad_cargo','domicilio','lugar_accidente',
@@ -50,6 +50,9 @@ def init_session_fields():
         st.session_state.setdefault(field, "")
 
     # Estados para IA
+
+    st.session_state.setdefault('analisis_antecedentes', None)
+    st.session_state.setdefault('preguntas_entrevista', None)
     st.session_state.setdefault('relatof', None)
     st.session_state.setdefault('hechos', None)
     st.session_state.setdefault('arbol', None)

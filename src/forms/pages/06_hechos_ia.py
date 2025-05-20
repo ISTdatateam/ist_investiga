@@ -35,17 +35,17 @@ def run():
         print(st.session_state.relatof)
 
 
-
     # Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
     if st.button("Identificar hechos con IA", disabled=identificar_disabled, use_container_width=True):
         try:
-            relatof = st.session_state.relatof
-            st.session_state.hechos = qm.generar_pregunta(
-                "hechos_deepseek",
-                relatof
-            )
-            st.session_state.form_hechos_guardado = False
+            with st.spinner("Identificando hechos relevantes con IA..."):
+                relatof = st.session_state.relatof
+                st.session_state.hechos = qm.generar_pregunta(
+                    "hechos",
+                    relatof
+                )
+                st.session_state.form_hechos_guardado = False
         except Exception as e:
             if "Insufficient Balance" in str(e):
                 st.warning("Usando fallback a OpenAI por saldo insuficiente en DeepSeek")

@@ -30,15 +30,14 @@ def run():
 
     if not st.session_state.get('arbol'):
         if st.button('Generar Árbol', use_container_width=True):
-            prompt = (
-                f"Relato: {relatof}\n"
-                f"Hechos: {hechos}"
-            )
-            st.session_state.arbol = qm.generar_pregunta('arbol_causas', prompt)
-            st.session_state.arbol_from_5q = st.session_state.arbol
-
-
-            st.rerun()
+            with st.spinner("Generando arbol con IA..."):
+                prompt = (
+                    f"Relato: {relatof}\n"
+                    f"Hechos: {hechos}"
+                )
+                st.session_state.arbol = qm.generar_pregunta('arbol_causas', prompt)
+                st.session_state.arbol_from_5q = st.session_state.arbol
+                st.rerun()
     else:
         cst.main()
 

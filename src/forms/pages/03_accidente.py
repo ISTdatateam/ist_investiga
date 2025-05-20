@@ -96,6 +96,19 @@ def run():
         help = ": Especificar si se produjo paralización del proceso productivo."
 
     )
+    st.session_state.contexto = st.text_area(
+        "Contexto del accidente",
+        key="contexto_input",  # clave temporal
+        value=st.session_state.contexto,
+        height=200
+    )
+    st.session_state.circunstancias = st.text_area(
+        "Circunstancias del accidente",
+        key="circunstancias_input",  # clave temporal
+        value=st.session_state.circunstancias,
+        height=200
+    )
+
     if st.button("Guardar datos", use_container_width=True):
         st.success("⚠Paso 3 – Detalle Accidente guardado")
         #st.session_state['_page'] = 4

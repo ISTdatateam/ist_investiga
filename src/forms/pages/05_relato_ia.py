@@ -26,34 +26,7 @@ def run():
 
     qm = get_qm()
 
-    # Mostrar el formulario para CONTEXTO y CIRCUNSTANCIAS
-    with st.form("form_relato"):
-        contexto_input = st.text_area(
-            "Contexto",
-            key="contexto_input",  # clave temporal
-            value=st.session_state.contexto,
-            height=150
-        )
-        circunstancias_input = st.text_area(
-            "Circunstancias",
-            key="circunstancias_input",  # clave temporal
-            value=st.session_state.circunstancias,
-            height=150
-        )
-
-        guardar = st.form_submit_button("Guardar relato")
-
-    # Acciones tras GUARDAR
-    if guardar:
-        st.session_state.contexto = contexto_input
-        st.session_state.circunstancias = circunstancias_input
-        st.session_state.relato_form_guardado = True
-        st.success("Datos guardados. Ahora puedes generar el relato con IA.")
-
-    # Botón externo = Ejecutar IA (solo habilitado si el form está guardado)
-    btn_disabled = not st.session_state.relato_form_guardado
-
-    if st.button("Ejecutar IA", disabled=btn_disabled, use_container_width=True):
+    if st.button("Asistente para mejorar relatos con IA"):
         try:
             # Construir prompt inicial estructurado
             if not st.session_state.get("initial_story"):

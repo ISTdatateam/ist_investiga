@@ -96,7 +96,7 @@ class InformeGenerator:
         fa = st.session_state.get('fecha_accidente')
         fecha_acc = fa.strftime('%d/%m/%Y') if hasattr(fa, 'strftime') else str(fa)
         fecha = st.session_state.get('fecha_informe', datetime.today()).strftime('%d/%m/%Y')
-        empresa = st.session_state.get('empresa','')
+        empresa = st.session_state.get('empresa_sel','')
         rut_empresa= st.session_state.get('rut_empresa','')
         self._apply_style(doc.add_paragraph(f'Nombre empresa: {empresa}'),'destacado')
         self._apply_style(doc.add_paragraph(f'RUT empresa: {rut_empresa}'),'destacado')
@@ -108,7 +108,7 @@ class InformeGenerator:
         heading = doc.add_heading('1. Resumen del informe', level=2)
         self._apply_style(heading, 'encabezado2')
         doc.add_paragraph()
-        self._apply_style(doc.add_paragraph("Aquí va el resumen"),'uso')
+        self._apply_style(doc.add_paragraph(st.session_state.resumen),'uso')
         doc.add_page_break()
 
     def _metodologia(self, doc):
@@ -165,7 +165,7 @@ class InformeGenerator:
         heading = doc.add_heading('3.1. Información de la Empresa y Centro de Trabajo', level=3)
         self._apply_style(heading, 'encabezado3')
         data = [
-            ('Razón Social', st.session_state.get('empresa','')),
+            ('Razón Social', st.session_state.get('empresa_sel','')),
             ('RUT Empresa', st.session_state.get('rut_empresa','')),
             ('Actividad Económica', st.session_state.get('actividad','')),
             ('Dirección Empresa', st.session_state.get('direccion_empresa','')),
@@ -174,7 +174,7 @@ class InformeGenerator:
             ('Región', st.session_state.get('region','')),
             ('Comuna', st.session_state.get('comuna','')),
             ('Centro de Trabajo', st.session_state.get('nombre_local','')),
-            ('Dirección Centro', st.session_state.get('direccion',''))
+            ('Dirección Centro', st.session_state.get('direccion_centro',''))
         ]
         self._create_info_table(doc, data)
         doc.add_paragraph()
@@ -224,9 +224,65 @@ class InformeGenerator:
 
     def _fuentes(self, doc):
         heading = doc.add_heading('4. Principales fuentes de información', level=2)
-        doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
-        self._apply_style(doc.add_paragraph("Aquí va el resumen"),'uso')
+        doc.add_paragraph()
+
+        # Declaraciones
+        heading_fuentes = doc.add_heading('Declaraciones y entrevistas', level=3)
+        self._apply_style(heading_fuentes, 'encabezado3')
+
+
+        if st.session_state.get('declaracion_accidentado'):
+            # Datos en línea
+            datos_acc = [
+                f"Declaración accidentado:",
+                f"{st.session_state.get('nombre_trabajador', 'No registrado')},",
+                f"RUT {st.session_state.get('rut_trabajador', 'No registrado')},",
+                f"{st.session_state.get('cargo_trabajador', 'No registrado')}."
+            ]
+            doc.add_paragraph(" ".join(datos_acc), style='List Bullet')
+
+            # Texto declaración
+            #doc.add_paragraph("Declaraciónes:")
+            #doc.add_paragraph(f"» {st.session_state.declaracion_accidentado}", style='List')
+
+        # Testigos
+        for i in [1, 2]:
+            if st.session_state.get(f'decl{i}_texto'):
+                datos_testigo = [
+                    f"Declaración testigo:",
+                    f"{st.session_state.get(f'decl{i}_nombre', 'No registrado')},",
+                    f"RUT {st.session_state.get(f'decl{i}_rut', 'No registrado')},",
+                    f"{st.session_state.get(f'decl{i}_cargo', 'No registrado')}."
+                ]
+                self._apply_style(doc.add_paragraph(" ".join(datos_testigo), style='List Bullet'), 'uso')
+                # doc.add_paragraph(f"Declaración: {st.session_state.get(f'decl{i}_texto')}", style='List')
+
+        # Sección de Fuentes
+        heading_fuentes = doc.add_heading('Documentos adjuntos y fotografias', level=3)
+        self._apply_style(heading_fuentes, 'encabezado3')
+
+        if hasattr(st.session_state, 'file_labels') and st.session_state.file_labels:
+            for file_data in st.session_state.file_labels.values():
+                tipo = 'Imagen' if file_data['type'].split('/')[-1].upper() in ['PNG', 'JPG', 'JPEG'] \
+                    else file_data['type'].split('/')[-1].upper()
+
+                #doc.add_paragraph(
+                #    f"{file_data.get('label', 'Sin etiqueta')}, "
+                #    f"Nombre archivo: {file_data['file_obj'].name}, "
+                #    f"Tipo: {tipo}",
+                #    style='List'
+                #)
+
+                self._apply_style(doc.add_paragraph(
+                    f"{file_data.get('label', 'Sin etiqueta')}",
+                    style='List Bullet'
+                ), 'uso')
+
+
+        else:
+            doc.add_paragraph("No se adjuntaron documentos de evidencia", style='List')
+
         doc.add_page_break()
 
     def _add_narrative(self, doc):
@@ -295,15 +351,29 @@ class InformeGenerator:
             row1[0].text = f"Tipo: {m.get('tipo','')}"
             merged_prio = row1[1].merge(row1[2])
             merged_prio.text = f"Prioridad: {m.get('prioridad','')}"
+            # Fila 2: Plazo (col1-2 merged), Responsable (col3)
+            row2 = table.rows[1].cells
+            merged_pl = row2[1].merge(row2[2])
+            row2[0].text = f"Plazo: {m.get('plazo','')}"
+            merged_pl.text = f"Responsable: {m.get('responsable','')}"
             # Fila 2: Descripción (todas 3 fused)
-            desc_cells = table.rows[1].cells
+            desc_cells = table.rows[2].cells
             merged_desc = desc_cells[0].merge(desc_cells[1]).merge(desc_cells[2])
             merged_desc.text = f"Descripción: {m.get('descripcion','')}"
-            # Fila 3: Plazo (col1-2 merged), Responsable (col3)
-            row3 = table.rows[2].cells
-            merged_pl = row3[1].merge(row3[2])
-            row3[0].text = f"Plazo: {m.get('plazo','')}"
-            merged_pl.text = f"Responsable: {m.get('responsable','')}"
+
+            for row in table.rows:
+                for cell in row.cells:
+                    for paragraph in cell.paragraphs:
+                        paragraph.alignment = WD_ALIGN_PARAGRAPH.LEFT
+                        for run in paragraph.runs:
+                            run.font.name = 'Calibri'
+                            run.font.size = Pt(11)
+
+                        # Si la celda está vacía, agregar un run con formato
+                        if not paragraph.runs:
+                            run = paragraph.add_run()
+                            run.font.name = 'Calibri'
+                            run.font.size = Pt(11)
             doc.add_paragraph()
 
     def _add_closure(self, doc):

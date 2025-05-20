@@ -3,11 +3,7 @@ from src.forms.data_form import init_session_fields
 
 
 def run():
-    # -- Sólo inicializar la primera vez --
-    #if not st.session_state.get("initialized_fields", False):
-    #    init_session_fields()
-    #    st.session_state["initialized_fields"] = True
-    st.header("Paso 4 – Declaraciones y Fotos")
+    st.header("Paso 4 – Declaraciones")
 
     with st.expander("Debug"):
         st.write(st.session_state)
@@ -67,16 +63,8 @@ def run():
         st.session_state.get('decl2_texto', ''),
     )
 
-    # Fotos del accidente
-    st.file_uploader(
-        'Fotos del Lugar',
-        type=['png', 'jpg', 'jpeg'],
-        accept_multiple_files=True,
-        key='fotos_accidente'
-    )
-
     # Botón Siguiente
-    if st.button('Guardar datos'):
+    if st.button('Guardar declaraciones'):
         st.success("Sección Declaraciones guardada")
         #st.session_state['_page'] = 5
         st.rerun()

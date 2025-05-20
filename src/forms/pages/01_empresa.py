@@ -64,6 +64,14 @@ def run():
         help="Ej: +56912345678"
     )
 
+    if not st.session_state.representante_legal:
+        st.session_state.representante_legal = "Marcelo Gálvez Saldías"
+    st.session_state.representante_legal = st.text_input(
+        "Representante legal*",
+        st.session_state.get('representante_legal', ''),
+        help="Marcelo Gálvez Saldías"
+    )
+
     # 2. Centro de Trabajo
     st.subheader("2. Centro de Trabajo")
     df_emp = df_locales[df_locales['Razón Social'] == empresa]
