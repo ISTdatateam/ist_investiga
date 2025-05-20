@@ -19,7 +19,7 @@ def run():
     # Flags que usaremos
     st.session_state.setdefault("prerelato_form_guardado", False)
 
-    st.header("Paso 3.5 – Evaluación de antecedentes y asistente entrevistas")
+    st.header("Evaluación de antecedentes")
 
     qm = get_qm()
 

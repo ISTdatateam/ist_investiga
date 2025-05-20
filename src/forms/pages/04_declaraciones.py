@@ -3,7 +3,7 @@ from src.forms.data_form import init_session_fields
 
 
 def run():
-    st.header("Paso 4 – Declaraciones")
+    st.header("Declaraciones y entrevistas")
 
     with st.expander("Debug"):
         st.write(st.session_state)

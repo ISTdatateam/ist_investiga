@@ -22,7 +22,7 @@ def run():
     st.session_state.setdefault("contexto", "")
     st.session_state.setdefault("circunstancias", "")
 
-    st.header("Paso 5 – Construcción del relato")
+    st.header("Construcción del relato")
 
     qm = get_qm()
 

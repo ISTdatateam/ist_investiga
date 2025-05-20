@@ -1,5 +1,3 @@
-import os
-import sys
 import streamlit as st
 from docutils.nodes import sidebar
 from streamlit_option_menu import option_menu
@@ -14,15 +12,15 @@ if not st.session_state.get("initialized_fields", False):
 
 # Definición de páginas con íconos y rutas
 PAGES = {
-    1: ("Empresa", "src.forms.pages.01_empresa"),
+    1: ("Datos Empresa", "src.forms.pages.01_empresa"),
     2: ("Datos Trabajador", "src.forms.pages.02_trabajador"),
     3: ("Detalle Accidente", "src.forms.pages.03_accidente"),
     35: ("Evaluación antecedentes", "src.forms.pages.035_prerelato_ia"),
     4: ("Declaraciones", "src.forms.pages.04_declaraciones"),
     45: ("Fotos y documentos", "src.forms.pages.045_fotos_documentos"),
-    5: ("Relato IA", "src.forms.pages.05_relato_ia"),
-    6: ("Hechos IA", "src.forms.pages.06_hechos_ia"),
-    7: ("Árbol IA", "src.forms.pages.07_arbol_ia"),
+    5: ("Construcción relato", "src.forms.pages.05_relato_ia"),
+    6: ("Análisis de hechos", "src.forms.pages.06_hechos_ia"),
+    7: ("Árbol de causas", "src.forms.pages.07_arbol_ia"),
     8: ("Medidas Correctivas", "src.forms.pages.08_medidas_correctivas"),
     9: ("Generar Informe", "src.forms.pages.09_informe")
 }

@@ -192,6 +192,7 @@ class InformeGenerator:
             ('Nacionalidad', st.session_state.get('nacionalidad','')),
             ('Estado Civil', st.session_state.get('estado_civil','')),
             ('Tipo de Contrato', st.session_state.get('contrato','')),
+            ('Antigüedad en la empresa', st.session_state.get('antiguedad_empresa', '')),
             ('Cargo', st.session_state.get('cargo_trabajador','')),
             ('Antigüedad en el Cargo', st.session_state.get('antiguedad_cargo','')),
             ('Domicilio', st.session_state.get('domicilio',''))

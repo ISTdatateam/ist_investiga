@@ -1,12 +1,11 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import datetime
 import time
 
 def run():
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("Paso 2 – Datos Trabajador")
+    st.header("Datos Trabajador")
 
     st.session_state.nombre_trabajador = st.text_input(
         "Nombre Completo*",
@@ -66,6 +65,11 @@ def run():
         opciones,
         index=default_ind,
         help="Ej: Indica el tipo de contrato del trabajador"
+    )
+    st.session_state.antiguedad_empresa = st.text_input(
+        "Antigüedad en la empresa*",
+        st.session_state.get('antiguedad_empresa', ''),
+        help="Ej: Este dato debe considerar la antigüedad en la empresa, independiente del cargo que haya ocupado."
     )
     st.session_state.cargo_trabajador = st.text_input(
         "Cargo*",

@@ -5,7 +5,7 @@ from src.forms.data_form import get_qm
 import datetime
 
 def run():
-    st.header("Paso 9 – Generar Informe")
+    st.header("Informe investigación")
     qm = get_qm()
 
     with st.expander("Debug"):

@@ -20,7 +20,7 @@ def run():
 
     with st.expander("Debug"):
         st.write(st.session_state)
-    st.header("Paso 3 – Detalle Accidente")
+    st.header("Detalle Accidente")
 
     st.session_state.fecha_accidente = st.date_input(
         'Fecha del Accidente*',

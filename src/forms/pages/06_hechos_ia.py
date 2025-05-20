@@ -11,7 +11,7 @@ def run():
     st.session_state.setdefault("relatof", "")
     st.session_state.setdefault("hechos", "")
 
-    st.header("Paso 6 – Hechos IA")
+    st.header("Análisis de hechos")
 
     with st.expander("Debug"):
         st.write(st.session_state)

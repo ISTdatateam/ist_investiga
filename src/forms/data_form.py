@@ -34,7 +34,7 @@ def init_session_fields():
     texts = [
         'empresa','rut_empresa','actividad','direccion_empresa','telefono', 'representante_legal',
         'region','comuna','nombre_local','direccion_centro','nombre_trabajador',
-        'rut_trabajador','nacionalidad','estado_civil','contrato',
+        'rut_trabajador','nacionalidad','estado_civil','contrato','antiguedad_empresa'
         'cargo_trabajador','antiguedad_cargo','domicilio','lugar_accidente',
         'tipo_accidente','naturaleza_lesion','parte_afectada','tarea','operacion',
         'daños_personas','daños_propiedad','perdidas_proceso','declaracion_accidentado',

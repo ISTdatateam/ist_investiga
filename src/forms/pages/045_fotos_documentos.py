@@ -3,7 +3,7 @@ from src.forms.data_form import init_session_fields
 
 
 def run():
-    st.header("Paso 4.5 – Fotos y documentos")
+    st.header("Fotos y documentos investigación")
 
     with st.expander("Debug"):
         st.write(st.session_state)
