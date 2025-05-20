@@ -22,7 +22,7 @@ def run():
         'Fecha de Nacimiento*',
         st.session_state.get('fecha_nacimiento', None),
         min_value= datetime.date(1940, 1, 1),
-        max_value= datetime.date(2008,12,12),
+        max_value= datetime.date(2008,12,31),
         format= "DD/MM/YYYY"
     )
     st.session_state.edad = st.number_input(
