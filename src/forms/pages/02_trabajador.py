@@ -3,8 +3,6 @@ import datetime
 import time
 
 def run():
-    with st.expander("Debug"):
-        st.write(st.session_state)
     st.header("Datos Trabajador")
 
     st.session_state.nombre_trabajador = st.text_input(

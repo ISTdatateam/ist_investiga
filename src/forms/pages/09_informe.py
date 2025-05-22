@@ -8,9 +8,6 @@ def run():
     st.header("Informe investigación")
     qm = get_qm()
 
-    with st.expander("Debug"):
-        st.write(st.session_state)
-
     # Datos básicos del informe (sin formulario)
     st.session_state.informe_numero = st.text_input(
         'Informe N°*',

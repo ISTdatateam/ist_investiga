@@ -20,9 +20,6 @@ def run():
 
     st.header("Árbol de Causas")
 
-    with st.expander("Debug"):
-        st.write(st.session_state)
-
 
     # 2) Ya puedes trabajar con esos backups seguros:
     relatof = st.session_state.get('relatof')

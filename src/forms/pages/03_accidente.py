@@ -17,9 +17,6 @@ def run():
 
     tipos_data = cargar_tipos()
 
-
-    with st.expander("Debug"):
-        st.write(st.session_state)
     st.header("Detalle Accidente")
 
     st.session_state.fecha_accidente = st.date_input(

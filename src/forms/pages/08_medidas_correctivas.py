@@ -8,8 +8,6 @@ def run():
 
     st.header("Medidas Correctivas")
 
-    with st.expander("Debug"):
-        st.write(st.session_state)
 
     # Llamada a la función de medidas correctivas
     status = medidas_app_wrapper()

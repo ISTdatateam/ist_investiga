@@ -13,9 +13,6 @@ def run():
 
     st.header("Análisis de hechos")
 
-    with st.expander("Debug"):
-        st.write(st.session_state)
-
     # Formulario = escribe / guarda el relato
     with st.form("form_hechos"):
         relatof_input = st.text_area(

@@ -9,12 +9,12 @@ from datetime import datetime
 def run():
     qm = get_qm()
 
-    with st.expander("Debug Técnico"):
-        st.json({
-            "session_state": dict(st.session_state),
-            "secrets_keys": list(st.secrets.keys()),
-            "active_model": qm.current_model if hasattr(qm, "current_model") else "n/d"
-        })
+    #with st.expander("Debug Técnico"):
+    #    st.json({
+    #        "session_state": dict(st.session_state),
+    #        "secrets_keys": list(st.secrets.keys()),
+    #        "active_model": qm.current_model if hasattr(qm, "current_model") else "n/d"
+    #    })
 
     # Flags que usaremos
     st.session_state.setdefault("prerelato_form_guardado", False)

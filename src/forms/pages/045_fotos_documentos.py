@@ -5,8 +5,8 @@ from src.forms.data_form import init_session_fields
 def run():
     st.header("Fotos y documentos investigación")
 
-    with st.expander("Debug"):
-        st.write(st.session_state)
+    #with st.expander("Debug"):
+    #    st.write(st.session_state)
 
     # Inicializar session_state para etiquetas y análisis
     if 'file_labels' not in st.session_state:
