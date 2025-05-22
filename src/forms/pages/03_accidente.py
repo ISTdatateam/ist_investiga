@@ -55,7 +55,7 @@ def run():
     st.session_state.naturaleza_lesion = st.text_input(
         "Naturaleza de la Lesión*",
         st.session_state.get('naturaleza_lesion', ''),
-        help="Indicar la lesión en términos de sus características físicas principales. Cuando se presenten lesiones múltiples, se sugiere indicar la más severa. En caso de haber lesiones de igual magnitud, se sugiere señalarlas como lesiones múltiples."
+        help="Indicar la lesión en términos de sus características principales por ejemplo (Contusión, Golpe, Herida). Cuando se presenten lesiones múltiples, se sugiere indicar la más severa. En caso de haber lesiones de igual magnitud, se sugiere señalarlas como lesiones múltiples."
     )
     st.session_state.parte_afectada = st.text_input(
         "Parte afectada*",

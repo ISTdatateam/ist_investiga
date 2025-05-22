@@ -53,7 +53,7 @@
             "model": "gpt-4.1-mini-2025-04-14",
             "temperature": 0.7,
             "top_p": 0.3,
-            "instruction": "Basado en el análisis y antecedentes genera: 1) 5 preguntas clave para el accidentado (solo si sobrevivió). 2) 5 preguntas para testigos/participantes. 3) 5 documentos a recopilar. **Reglas**: Preguntas deben relacionarse con vacíos identificados en el análisis. Documentos deben permitir validar causas básicas/directas. Formato: 3 tablas Markdown indicando a que sección corresponde (Preguntas claves al accidentado, preguntas claves a testigos, Documentos claves a recopilar), con columnas 'Prioridad', 'Pregunta/Documento', 'Objetivo'. Recuerda quitar la sección 'Preguntas claves al accidentado' si en los antecedentes se interpreta que falleció"
+            "instruction": "Basado en el análisis y antecedentes genera: 1) 5 preguntas clave para el accidentado (solo si sobrevivió). 2) 5 preguntas para testigos/participantes. 3) 5 preguntas para supervisores o jefaturas. 4) 5 documentos a recopilar. **Reglas**: Preguntas deben relacionarse con vacíos identificados en el análisis. Documentos deben permitir validar causas básicas/directas. Formato: 3 tablas Markdown indicando a que sección corresponde (Preguntas claves al accidentado, preguntas claves a testigos, Documentos claves a recopilar), con columnas 'Prioridad', 'Pregunta/Documento', 'Objetivo'. Recuerda quitar la sección 'Preguntas claves al accidentado' si en los antecedentes se interpreta que falleció"
         },
         "relato_inicial": {
             "provider": "openai",

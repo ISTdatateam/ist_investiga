@@ -23,7 +23,7 @@ def run():
 
     qm = get_qm()
 
-    if st.button("Evaluar antecedentes con IA"):
+    if st.button("Evaluar antecedentes con IA y generar preguntas guía"):
         # Construir prompt inicial estructurado
         if not st.session_state.get("initial_story"):
             # Convertir fechas/horas a strings serializables
@@ -55,29 +55,8 @@ def run():
 
             st.session_state.preinitial_story = json.dumps(preinitial_data, ensure_ascii=False, indent=2)
 
-        # Generar relato inicial con manejo de modelo
-        with st.spinner(f"Analizando antecedentes con IA..."):
-            st.session_state.analisis_antecedentes = qm.generar_pregunta(
-                "analisis_antecedentes",
-                st.session_state.preinitial_story
-            )
-            # Manejo del estado de la aplicación
-            st.session_state['invest_active'] = True
-            st.session_state.relato_form_guardado = False
-
-            # Forzar actualización de UI
-            st.rerun()
-
-    if st.session_state.analisis_antecedentes:
-        st.write(st.session_state.analisis_antecedentes)
-        #if st.button("Guardar hechos generados por IA", use_container_width=True):
-        #    st.session_state.hechos = st.session_state.get('hechos_view', '')
-        #    st.rerun()
-
-        if st.button("Generar preguntas y antecedentes claves con IA"):
             prompt = (
                 f"Antecedentes: {st.session_state.preinitial_story}\n"
-                f"Analisis: {st.session_state.analisis_antecedentes}\n"
             )
 
             # Generar relato inicial con manejo de modelo
@@ -89,8 +68,3 @@ def run():
 
     if st.session_state.preguntas_entrevista:
         st.write(st.session_state.preguntas_entrevista)
-
-    # Si ya existe relato, pasamos a la app de investigación
-    #if st.session_state.get("analisis_antecedentes") and st.session_state.get("invest_active"):
-    #    app = InvestigationApp(st.secrets)  # Pasar todos los secrets
-    #    app.run()
