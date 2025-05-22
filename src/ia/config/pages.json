@@ -26,14 +26,14 @@
             "type": "question",
             "prompt_key": "investiga3",
             "key": "p4",
-            "next_page": 15
+            "next_page": 18
         },
         {
             "id": 15,
             "type": "question",
-            "prompt_key": "investiga4",
+            "prompt_key": "investiga3",
             "key": "p5",
-            "next_page": 16
+            "next_page": 18
         },
         {
             "id": 16,

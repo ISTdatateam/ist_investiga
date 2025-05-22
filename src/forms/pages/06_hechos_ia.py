@@ -22,7 +22,7 @@ def run():
             height=400
         )
 
-        guardar = st.form_submit_button("Guardar relato procesado por IA")
+        guardar = st.form_submit_button("Confirmar relato")
 
     # Acciones tras guardar
     if guardar:
@@ -60,6 +60,6 @@ def run():
             key="hechos_view",
             height=400
         )
-        if st.button("Guardar hechos generados por IA", use_container_width=True):
+        if st.button("Confirmar hechos", use_container_width=True):
             st.session_state.hechos = st.session_state.get('hechos_view', '')
             st.rerun()

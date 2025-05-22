@@ -57,18 +57,19 @@ Instrucciones:
       "prioridad": "<Prioridad>",
       "descripcion": "<Descripción>",
       "plazo": "<Plazo>",
-      "responsable": "<Responsable>",
-      "costo_estimado": "<Costo>"
+      "responsable": "<Responsable>"
     }}
   ]
 }}
 3. Para cada campo utiliza **exactamente** uno de estos valores:
-   - tipo: Técnica, Organizacional, Capacitación, EPP
+   - tipo: Ingenieril, Administrativa, EPP
    - prioridad: Alta, Media, Baja
    - plazo: Corto, Mediano, Largo
-   - costo_estimado: Bajo, Medio, Alto
-4. El campo descripcion debe ser un texto completo en español.
-5. El campo responsable debe ser el área o departamento responsable.
+
+4. Las capacitaciones corresponden a una medida de tipo administrativa, también los procedimientos.
+5. El campo descripción debe ser un texto completo en español.
+6. El campo responsable debe ser el área o departamento responsable.
+
 """
     ai_response = call_ai(prompt)
 
@@ -90,10 +91,10 @@ Instrucciones:
 # Función para mostrar y permitir editar y eliminar medidas
 def show_measures_editor():
     st.markdown('### Medidas Propuestas')
-    tipo_opts = ["Técnica", "Organizacional", "Capacitación", "EPP"]
+    tipo_opts = ["Ingenieril", "Administraticva", "EPP"]
     prioridad_opts = ["Alta", "Media", "Baja"]
     plazo_opts = ["Corto", "Mediano", "Largo"]
-    costo_opts = ["Bajo", "Medio", "Alto"]
+    #costo_opts = ["Bajo", "Medio", "Alto"]
 
     for idx, m in enumerate(st.session_state.edited_measures.copy()):
         with st.expander(f"Medida {idx+1}: {m.get('descripcion','')[:40]}..."):
@@ -118,15 +119,16 @@ def show_measures_editor():
                 plazo = st.selectbox("Plazo", plazo_opts, index=idx_plazo, key=f"plazo_{idx}")
 
             with col2:
+                responsable = st.text_input("Responsable", value=m.get('responsable',''), key=f"resp_{idx}")
+
                 default_prio = m.get('prioridad', prioridad_opts[1])
                 idx_prio = prioridad_opts.index(default_prio) if default_prio in prioridad_opts else 1
                 prioridad = st.selectbox("Prioridad", prioridad_opts, index=idx_prio, key=f"prio_{idx}")
 
-                default_costo = m.get('costo_estimado', '')
-                idx_costo = costo_opts.index(default_costo) if default_costo in costo_opts else 1
-                costo = st.selectbox("Costo estimado", costo_opts, index=idx_costo, key=f"costo_{idx}")
+                #default_costo = m.get('costo_estimado', '')
+                #idx_costo = costo_opts.index(default_costo) if default_costo in costo_opts else 1
+                #costo = st.selectbox("Costo estimado", costo_opts, index=idx_costo, key=f"costo_{idx}")
 
-            responsable = st.text_input("Responsable", value=m.get('responsable',''), key=f"resp_{idx}")
             descripcion = st.text_area("Descripción", value=m.get('descripcion',''), key=f"desc_{idx}", height=120)
 
             cols = st.columns(2)
@@ -137,7 +139,7 @@ def show_measures_editor():
                         'prioridad': prioridad,
                         'plazo': plazo,
                         'responsable': responsable,
-                        'costo_estimado': costo,
+                        #'costo_estimado': costo,
                         'descripcion': descripcion
                     })
                     st.success(f"Medida {idx+1} actualizada.")
@@ -152,7 +154,7 @@ def medidas_app():
     if not st.session_state.edited_measures:
         st.session_state.edited_measures = []
 
-    if st.button('Generar medidas correctivas'):
+    if st.button('Generar medidas correctivas con IA'):
         if not any(st.session_state.get(k) for k in ('relatof','hechos','arbol')):
             print("Faltan datos")
             st.warning('Faltan datos: asegúrate de tener relato, hechos y arbol guardados.')

@@ -228,11 +228,11 @@ class InvestigationApp:
 
         col1, col2 = columns(2)
 
-        with col1:
-            if st.button("Seguir completando relato"):
-                session_state.relato_accidente = session_state.relatof
-                session_state.current_page = 11
-                st.rerun()
+        #with col1:
+        #    if st.button("Seguir completando relato"):
+        #        session_state.relato_accidente = session_state.relatof
+        #        session_state.current_page = 11
+        #        st.rerun()
 
         with col2:
             if st.button("Continuar con identificación de hechos"):

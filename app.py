@@ -14,7 +14,7 @@ if not st.session_state.get("initialized_fields", False):
 PAGES = {
     1: ("Datos Empresa", "src.forms.pages.01_empresa"),
     2: ("Datos Trabajador", "src.forms.pages.02_trabajador"),
-    3: ("Detalle Accidente", "src.forms.pages.03_accidente"),
+    3: ("Datos Accidente", "src.forms.pages.03_accidente"),
     35: ("Evaluación antecedentes", "src.forms.pages.035_prerelato_ia"),
     4: ("Declaraciones", "src.forms.pages.04_declaraciones"),
     45: ("Fotos y documentos", "src.forms.pages.045_fotos_documentos"),
