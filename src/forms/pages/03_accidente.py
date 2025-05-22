@@ -17,7 +17,7 @@ def run():
 
     tipos_data = cargar_tipos()
 
-    st.header("Detalle Accidente")
+    st.header("Datos Accidente")
 
     st.session_state.fecha_accidente = st.date_input(
         'Fecha del Accidente*',
@@ -96,13 +96,13 @@ def run():
 
     )
     st.session_state.contexto = st.text_area(
-        "Contexto del accidente",
+        "Tarea que se realizaba",
         key="contexto_input",  # clave temporal
         value=st.session_state.contexto,
         height=200
     )
     st.session_state.circunstancias = st.text_area(
-        "Circunstancias del accidente",
+        "Circunstancias del accidente (Situación específica)",
         key="circunstancias_input",  # clave temporal
         value=st.session_state.circunstancias,
         height=200
