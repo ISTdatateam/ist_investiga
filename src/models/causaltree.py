@@ -462,7 +462,8 @@ def generate_dot() -> str:
              nodesep='0.3',
              newrank='true',
              compound='true',
-             bgcolor='#f5f5f5'
+             bgcolor='#f5f5f5',
+             dir='back'
              )
 
     # Configuración mejorada de nodos
@@ -478,7 +479,8 @@ def generate_dot() -> str:
              width='2.0',
              height='1.0',
              margin='0.2,0.1',
-             arrowType='none')
+             dir='back'
+             )
 
     dot.attr('edge', color='#606060', penwidth='1.5')
 
@@ -528,7 +530,8 @@ def generate_dot() -> str:
 
     # Añadir todas las conexiones
     for edge in st.session_state.edges:
-        dot.edge(edge['from'], edge['to'])
+        edge_attrs = {'arrowhead':'inv', 'dir':'back'}
+        dot.edge(edge['from'], edge['to'],**edge_attrs )
 
     st.session_state.arbol_dot = dot.source  # <-- Nueva línea
     return dot.source

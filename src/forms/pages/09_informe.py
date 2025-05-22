@@ -29,6 +29,7 @@ def run():
     if st.button("Generar informe"):
         try:
             with st.spinner("Generando informe..."):
+                st.session_state.setdefault('resumen', None)
                 if not st.session_state.resumen:
                         st.session_state.resumen = qm.generar_pregunta(
                             "resumen",

@@ -66,7 +66,7 @@ Instrucciones:
    - prioridad: Alta, Media, Baja
    - plazo: Corto, Mediano, Largo
 
-4. Las capacitaciones corresponden a una medida de tipo administrativa, también los procedimientos.
+4. Son medidas administrativas las capacitaciones, procedimientos y otras.
 5. El campo descripción debe ser un texto completo en español.
 6. El campo responsable debe ser el área o departamento responsable.
 
@@ -91,7 +91,7 @@ Instrucciones:
 # Función para mostrar y permitir editar y eliminar medidas
 def show_measures_editor():
     st.markdown('### Medidas Propuestas')
-    tipo_opts = ["Ingenieril", "Administraticva", "EPP"]
+    tipo_opts = ["Ingenieril", "Administrativa", "EPP"]
     prioridad_opts = ["Alta", "Media", "Baja"]
     plazo_opts = ["Corto", "Mediano", "Largo"]
     #costo_opts = ["Bajo", "Medio", "Alto"]
@@ -155,14 +155,15 @@ def medidas_app():
         st.session_state.edited_measures = []
 
     if st.button('Generar medidas correctivas con IA'):
-        if not any(st.session_state.get(k) for k in ('relatof','hechos','arbol')):
-            print("Faltan datos")
-            st.warning('Faltan datos: asegúrate de tener relato, hechos y arbol guardados.')
-            status = False
-        else:
-            status = True
-            print("Antes de generate_measures")
-            generate_measures()
+        with st.spinner("Analizando hechos y generando medidas correctivas con IA..."):
+            if not any(st.session_state.get(k) for k in ('relatof','hechos','arbol')):
+                print("Faltan datos")
+                st.warning('Faltan datos: asegúrate de tener relato, hechos y arbol guardados.')
+                status = False
+            else:
+                status = True
+                print("Antes de generate_measures")
+                generate_measures()
 
     if st.session_state.edited_measures:
         show_measures_editor()

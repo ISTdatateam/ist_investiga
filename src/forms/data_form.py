@@ -39,7 +39,7 @@ def init_session_fields():
         'tipo_accidente','naturaleza_lesion','parte_afectada','tarea','operacion',
         'daños_personas','daños_propiedad','perdidas_proceso','declaracion_accidentado',
         'decl1_nombre','decl1_cargo','decl1_rut','decl1_texto',
-        'decl2_nombre','decl2_cargo','decl2_rut','decl2_texto','resumen'
+        'decl2_nombre','decl2_cargo','decl2_rut','decl2_texto',
         'informe_numero','investigador','contexto','circunstancias','initial_story'
     ]
 
@@ -56,6 +56,7 @@ def init_session_fields():
     st.session_state.setdefault('relatof', None)
     st.session_state.setdefault('hechos', None)
     st.session_state.setdefault('arbol', None)
+    st.session_state.setdefault('resumen', None)
 
     # Flags para reseteos dinámicos
     st.session_state.setdefault('prev_empresa', None)
