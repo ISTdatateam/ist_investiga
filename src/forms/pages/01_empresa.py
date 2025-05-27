@@ -60,7 +60,8 @@ def run():
     """
 
     if not st.session_state.direccion_empresa:
-        st.session_state.direccion_empresa = "El Bosque Norte 500, Piso 18, Las Condes"
+        #st.session_state.direccion_empresa = "El Bosque Norte 500, Piso 18, Las Condes"
+        st.session_state.direccion_empresa = "Av. Santa Maria 2450, Providencia"
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
         st.session_state.get('direccion_empresa', ''),
@@ -76,7 +77,7 @@ def run():
     )
 
     if not st.session_state.representante_legal:
-        st.session_state.representante_legal = "Teresa Matamala Bellolio"
+        st.session_state.representante_legal = "Hernan Besomi Tomas"
     st.session_state.representante_legal = st.text_input(
         "Representante legal*",
         st.session_state.get('representante_legal', ''),
@@ -84,7 +85,7 @@ def run():
     )
 
     if not st.session_state.actividad:
-        st.session_state.actividad = "Transporte de carga marítimo y de cabotaje"
+        st.session_state.actividad = "Construcción y reparación de edificios"
     st.session_state.actividad = st.text_input(
         "Actividad Económica*",
         st.session_state.get('actividad', ''),
