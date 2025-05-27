@@ -8,3 +8,4 @@ python-docx
 sqlalchemy
 docutils
 streamlit_option_menu
+openpyxl
