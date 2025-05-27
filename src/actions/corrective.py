@@ -138,7 +138,7 @@ def show_measures_editor():
                         'tipo': tipo,
                         'prioridad': prioridad,
                         'plazo': plazo,
-                        'responsable': responsable,
+                        'responsable': '', #responsable,
                         #'costo_estimado': costo,
                         'descripcion': descripcion
                     })

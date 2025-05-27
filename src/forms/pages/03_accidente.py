@@ -50,7 +50,7 @@ def run():
     st.write(descripciones.get(seleccion, "Sin descripción disponible."))
 
     st.session_state.naturaleza_lesion = st.text_input(
-        "Naturaleza de la Lesión*",
+        "Describa la lesión*",
         st.session_state.get('naturaleza_lesion', ''),
         help="Indicar la lesión en términos de sus características principales por ejemplo (Contusión, Golpe, Herida). Cuando se presenten lesiones múltiples, se sugiere indicar la más severa. En caso de haber lesiones de igual magnitud, se sugiere señalarlas como lesiones múltiples."
     )

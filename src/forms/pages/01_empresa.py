@@ -12,9 +12,10 @@ def run():
 
     # 1. Empresa
     st.subheader("1. Empresa")
-    #prepoblar el campo empresa
+    #Pre-poblar el campo empresa
     razones = sorted(df_locales['Razón Social'].dropna().unique())
-    prev_empresa = st.session_state.get("empresa_sel", razones[0] if razones else "")
+    #Ajustado para demo de ULTRAMAR razones[0] por ""
+    prev_empresa = st.session_state.get("empresa_sel", 'ULTRAMAR AGENCIA MARITIMA' if razones else "")
     idx_empresa = razones.index(prev_empresa) if prev_empresa in razones else 0
     st.session_state.empresa_sel = st.selectbox(
         "Razón Social*",
@@ -25,8 +26,9 @@ def run():
 
     empresa =  st.session_state.empresa_sel
 
-    # prepoblar el rut
+    #prepoblar el rut
     rut_vals = df_locales[df_locales['Razón Social'] == empresa]['Rut'].unique()
+    #Ajustado para demo de ULTRAMAR rut_vals[0] por '80.992.000-3'
     default_rut = st.session_state.get("rut_empresa", rut_vals[0] if len(rut_vals) else "")
 
     st.session_state.rut_empresa = st.text_input(
@@ -37,17 +39,28 @@ def run():
     if len(rut_vals):
         st.session_state["rut_empresa"] = rut_vals[0]
 
-    # Actividad, Dirección y Teléfono
-    if not st.session_state.actividad:
-        st.session_state.actividad = "Supermercados, CIIU 62103"
-    st.session_state.actividad = st.text_input(
-        "Actividad Económica*",
-        st.session_state.get('actividad', ''),
-        help="Ej: SUPERMERCADO"
+    df_emp = df_locales[df_locales['Razón Social'] == empresa]
+
+    """
+    # prepoblar el campo direccion
+    df_direcciones = df_locales[df_locales['Razón Social'] == empresa]
+    df_direcciones["Direccion_Completa"] = df_emp["Dirección"].fillna("") + ", " + df_emp[
+        "Comuna"].fillna("")
+    direcciones = sorted(df_direcciones['Direccion_Completa'].dropna().unique())
+    prev = st.session_state.get('Dirección', direcciones[0])
+    idx = direcciones.index(prev) if prev in direcciones else 0
+
+    st.session_state.direccion_empresa = st.selectbox(
+        "Direccion empresa*",
+        direcciones,
+        index=idx,
+        key="dirección_sel",  # aquí Streamlit guarda en 'region_sel'
+        help="Selecciona la dirección principal de la empresa"
     )
+    """
 
     if not st.session_state.direccion_empresa:
-        st.session_state.direccion_empresa = "Cerro El Plomo 5680 piso 10"
+        st.session_state.direccion_empresa = "El Bosque Norte 500, Piso 18, Las Condes"
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
         st.session_state.get('direccion_empresa', ''),
@@ -55,7 +68,7 @@ def run():
     )
 
     if not st.session_state.telefono:
-        st.session_state.telefono = "+56963350836"
+        st.session_state.telefono = "+56226301800"
     st.session_state.telefono = st.text_input(
         "Teléfono Empresa*",
         st.session_state.get('telefono', ''),
@@ -63,11 +76,19 @@ def run():
     )
 
     if not st.session_state.representante_legal:
-        st.session_state.representante_legal = "Marcelo Gálvez Saldías"
+        st.session_state.representante_legal = "Teresa Matamala Bellolio"
     st.session_state.representante_legal = st.text_input(
         "Representante legal*",
         st.session_state.get('representante_legal', ''),
         help="Marcelo Gálvez Saldías"
+    )
+
+    if not st.session_state.actividad:
+        st.session_state.actividad = "Transporte de carga marítimo y de cabotaje"
+    st.session_state.actividad = st.text_input(
+        "Actividad Económica*",
+        st.session_state.get('actividad', ''),
+        help="Ej: SUPERMERCADO"
     )
 
     # 2. Centro de Trabajo

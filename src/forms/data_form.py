@@ -6,7 +6,9 @@ from datetime import date, datetime
 
 
 @st.cache_data
-def load_locales(path: str = 'SMU-CT.xlsx') -> pd.DataFrame:
+def load_locales(path: str = 'UM-CT.xlsx') -> pd.DataFrame:
+#def load_locales(path: str = 'SMU-CT.xlsx') -> pd.DataFrame:
+
     """
     Lee y cachea el archivo de locales SMU-CT.xlsx, limpiando espacios en los nombres de columnas.
     """
