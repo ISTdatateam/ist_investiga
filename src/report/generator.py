@@ -20,9 +20,6 @@ class InformeGenerator:
         graph = Source(dot_source, format='png')
         return graph.pipe()
 
-
-
-
     def __init__(self):
         # Definición de estilos
         self.estilos = {
