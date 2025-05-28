@@ -17,9 +17,7 @@ def run():
     # -- Sólo inicializar la primera vez --
 
     qm = get_qm()
-
     st.header("Árbol de Causas")
-
 
     # 2) Ya puedes trabajar con esos backups seguros:
     relatof = st.session_state.get('relatof')

@@ -525,7 +525,6 @@ def generate_dot() -> str:
                 'fontname': 'Helvetica-Bold'
             }
 
-
         # Crear nodo con label formateado
         dot.node(name=node_id, label=html_label, **node_attrs)
 
