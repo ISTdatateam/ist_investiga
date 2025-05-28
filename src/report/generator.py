@@ -1,6 +1,7 @@
 import streamlit as st
 import tempfile
 import os
+import io
 from docx import Document
 from docx.shared import Pt, Cm, RGBColor
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -10,6 +11,18 @@ from sqlalchemy import false
 
 
 class InformeGenerator:
+
+    @staticmethod
+    def _generate_tree_image(dot_source: str) -> bytes:
+        """
+        Genera una imagen PNG a partir del string DOT y devuelve los bytes.
+        """
+        graph = Source(dot_source, format='png')
+        return graph.pipe()
+
+
+
+
     def __init__(self):
         # Definición de estilos
         self.estilos = {
@@ -306,10 +319,10 @@ class InformeGenerator:
                 self._apply_style(doc.add_paragraph(hecho.strip()), 'uso')
         doc.add_page_break()
 
-    def _generate_tree_image(self, output_path):
-        graph = Source(st.session_state.get('arbol_dot'))
-        graph.format = 'png'
-        graph.render(output_path, cleanup=True)
+    #def _generate_tree_image(self, output_path):
+    #    graph = Source(st.session_state.get('arbol_dot'))
+    #    graph.format = 'png'
+    #    graph.render(output_path, cleanup=True)
 
     def _add_cause_tree(self, doc):
         heading = doc.add_heading('7. Arbol de causas', level=2)
@@ -319,12 +332,17 @@ class InformeGenerator:
         doc.add_paragraph()
 
         if st.session_state.get('cause_tree_png'):
-            doc.add_picture(st.session_state['cause_tree_png'], width=Cm(16))
+            doc.add_picture(st.session_state['cause_tree_png'], width=Cm(15))
         else:
-            with tempfile.TemporaryDirectory() as tmp:
-                path = os.path.join(tmp, 'tree')
-                self._generate_tree_image(path)
-                doc.add_picture(f"{path}.png", width=Cm(16))
+            dot_src = st.session_state.get('arbol_dot')
+            png_bytes = self._generate_tree_image(dot_src)
+            # Opcional: guardarlo en session_state si lo necesitas más tarde
+            st.session_state.cause_tree_png_bytes = png_bytes
+            # Mostrar la imagen en Streamlit
+            buf = io.BytesIO(png_bytes)
+            buf.seek(0)
+            st.session_state.cause_tree_png = buf
+
         last_para = doc.paragraphs[-1]
         last_para.alignment = WD_ALIGN_PARAGRAPH.CENTER
         caption = doc.add_paragraph(style='Caption')
