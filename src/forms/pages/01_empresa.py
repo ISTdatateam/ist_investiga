@@ -61,7 +61,8 @@ def run():
 
     if not st.session_state.direccion_empresa:
         #st.session_state.direccion_empresa = "El Bosque Norte 500, Piso 18, Las Condes"
-        st.session_state.direccion_empresa = "Av. Santa Maria 2450, Providencia"
+        #st.session_state.direccion_empresa = "Av. Santa Maria 2450, Providencia"
+         st.session_state.direccion_empresa = "Av. Santa Maria 2450, Providencia"
     st.session_state.direccion_empresa = st.text_input(
         "Dirección Empresa*",
         st.session_state.get('direccion_empresa', ''),

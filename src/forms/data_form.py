@@ -6,8 +6,8 @@ from datetime import date, datetime
 
 
 @st.cache_data
-def load_locales(path: str = 'EBCO-CT.xlsx') -> pd.DataFrame:
-#def load_locales(path: str = 'SMU-CT.xlsx') -> pd.DataFrame:
+#def load_locales(path: str = 'EBCO-CT.xlsx') -> pd.DataFrame:
+def load_locales(path: str = 'SMU-CT.xlsx') -> pd.DataFrame:
 #def load_locales(path: str = 'UM-CT.xlsx') -> pd.DataFrame:
 
     """
