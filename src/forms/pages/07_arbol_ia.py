@@ -27,7 +27,7 @@ def run():
 
     if not st.session_state.get('arbol'):
         if st.button('Generar Árbol', use_container_width=True):
-            with st.spinner("Generando arbol con IA..."):
+            with st.spinner("Generando arbol con IA.."):
                 prompt = (
                     f"Relato: {relatof}\n"
                     f"Hechos: {hechos}"
