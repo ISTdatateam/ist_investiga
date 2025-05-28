@@ -17,7 +17,6 @@ class InformeGenerator:
         """
         Genera una imagen PNG a partir del string DOT y devuelve los bytes.
         """
-        dot_source = dot_source.replace('{', '{\n    graph [dpi=300];', 1)
         graph = Source(dot_source, format='png')
         return graph.pipe()
 
