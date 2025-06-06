@@ -1,3 +1,4 @@
+#06_hechos_ia.py
 import streamlit as st
 from src.ia.questions import QuestionManager
 from src.forms.data_form import get_qm
@@ -12,6 +13,7 @@ def run():
     st.session_state.setdefault("hechos", "")
 
     st.header("Análisis de hechos")
+    st.write("En este momento se requiere confirmar por ultima vez el relato y luego el asistente realizara la detección de hechos relevantes.")
 
     # Formulario = escribe / guarda el relato
     with st.form("form_hechos"):
@@ -34,6 +36,8 @@ def run():
 
     # Botón externo = identificar hechos (solo habilitado si ya se guardó)
     identificar_disabled = not st.session_state.form_hechos_guardado
+
+
     if st.button("Identificar hechos con IA", disabled=identificar_disabled, use_container_width=True):
         try:
             with st.spinner("Identificando hechos relevantes con IA..."):

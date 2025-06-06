@@ -3,6 +3,7 @@ from datetime import date, datetime
 import time
 import json
 from pathlib import Path
+from src.db import insert_accidente          # NUEVO import
 
 
 # Configuración de directorios
@@ -60,7 +61,7 @@ def run():
         help="Se clasifica la parte del cuerpo que resultó directamente afectada por la lesión. Cuando la lesión afecta varias partes o diferentes miembros principales del cuerpo, debe utilizarse la categoría “partes múltiples”. Ejemplos: Mano, dedos, pie, tronco, cabeza."
     )
     st.session_state.tarea = st.text_input(
-        "Tarea que se ejecutaba (fuente)*",
+        "Tarea que se ejecutaba*",
         st.session_state.get('tarea', ''),
         help="Es la actividad laboral desarrollada por el accidentado al momento de ocurrencia del accidente, por ejemplo: soldar, tejer, transportar carga, escribir, almacenar, reparar, etc."
     )
@@ -96,20 +97,54 @@ def run():
 
     )
     st.session_state.contexto = st.text_area(
-        "Tarea que se realizaba",
+        "Tarea que se realizaba (Detalle del proceso habitual)",
         key="contexto_input",  # clave temporal
         value=st.session_state.contexto,
         height=200
     )
     st.session_state.circunstancias = st.text_area(
-        "Circunstancias del accidente (Situación específica)",
+        "Circunstancias del accidente (Situación específica del accidente)",
         key="circunstancias_input",  # clave temporal
         value=st.session_state.circunstancias,
         height=200
     )
 
-    if st.button("Guardar datos", use_container_width=True):
-        st.success("⚠Paso 3 – Detalle Accidente guardado")
-        #st.session_state['_page'] = 4
+    if st.button("Guardar accidente", use_container_width=True):
+        missing = [k for k in ("centro_id", "trabajador_id") if k not in st.session_state]
+        if missing:
+            st.error("Falta definir Empresa/Centro o Trabajador antes de registrar el accidente.")
+            st.stop()
+
+        accidente_id = insert_accidente(
+            centro_id=st.session_state.centro_id,
+            trabajador_id=st.session_state.trabajador_id,
+            fecha_accidente=st.session_state.fecha_accidente.isoformat(),
+            hora_accidente=st.session_state.hora_accidente.strftime("%H:%M:%S"),
+            lugar_accidente=st.session_state.lugar_accidente.strip(),
+            tipo_accidente=st.session_state.tipo_accidente,
+            naturaleza_lesion=st.session_state.naturaleza_lesion,
+            parte_afectada=st.session_state.parte_afectada,
+            tarea=st.session_state.tarea.strip(),
+            operacion=st.session_state.operacion.strip(),
+            # ----- snapshot trabajador  -----
+            cargo_trabajador=st.session_state.cargo_trabajador,
+            contrato=st.session_state.contrato,
+            antiguedad_empresa=st.session_state.antiguedad_empresa,
+            antiguedad_cargo=st.session_state.antiguedad_cargo,
+            # ----- consecuencias -------------
+            danos_personas=st.session_state.daños_personas,
+            danos_propiedad=st.session_state.daños_propiedad,
+            perdidas_proceso=st.session_state.perdidas_proceso,
+            # Resumen / relato quedan en blanco por ahora
+            contexto=st.session_state.contexto,
+            circunstancias=st.session_state.circunstancias,
+            preinitial_story=st.session_state.preinitial_story,
+            preguntas_entrevista=st.session_state.preguntas_entrevista,
+            resumen=None,
+            relato=None,
+        )
+
+        st.session_state.accidente_id = accidente_id
+        st.success("Accidente guardado correctamente")
         time.sleep(1)
         st.rerun()

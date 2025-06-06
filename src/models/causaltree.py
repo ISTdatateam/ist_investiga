@@ -163,11 +163,51 @@ def main():
 
 
     # Columnas principales: contenedor de controles y contenedor de navegación/editor
-    col1, col2 = st.columns([2, 1])
+    # Usamos un container() para “resetear” el contexto antes de crear nuevas columnas
+    nav_container = st.container()
+    nav_left, nav_center, nav_right = nav_container.columns([1, 2, 1])
+
+    with nav_left:
+        st.button(
+            "← Anterior",
+            on_click=navigate_previous_cousin,
+            use_container_width=True
+        )
+
+    with nav_center:
+        st.button(
+            "⬆️ Arriba",
+            on_click=navigate_to_parent,
+            disabled=(
+                    not st.session_state.current or
+                    not st.session_state.nodes[st.session_state.current]["parent"]
+            ),
+            help="Navegar al nodo padre",
+            use_container_width=True
+        )
+        st.button(
+            "⬇️ Abajo",
+            on_click=navigate_to_first_child,
+            disabled=(
+                    not st.session_state.current or
+                    not st.session_state.nodes[st.session_state.current]["children"]
+            ),
+            help="Navegar al primer hijo",
+            use_container_width=True
+        )
+
+    with nav_right:
+        st.button(
+            "→ Próximo",
+            on_click=navigate_next_cousin,
+            use_container_width=True
+        )
+
+    col1, col2 = st.columns([1, 1])
 
     with col1:
         # 🎮 Controles del Árbol
-        with st.expander("🎮 Controles del Árbol", expanded=True):
+        with st.expander("➕ Generador de nodos", expanded=False):
             new_label = st.text_input(
                 "📝 Texto del nodo:",
                 key=f"node_label_{st.session_state.current}",
@@ -204,52 +244,12 @@ def main():
                     use_container_width=True
                 )
 
-        # Usamos un container() para “resetear” el contexto antes de crear nuevas columnas
-        nav_container = st.container()
-        nav_left, nav_center, nav_right = nav_container.columns([1, 2, 1])
 
-        with nav_left:
-            st.button(
-                "← Anterior",
-                on_click=navigate_previous_cousin,
-                use_container_width=True
-            )
-
-        with nav_center:
-            st.button(
-                "⬆️ Arriba",
-                on_click=navigate_to_parent,
-                disabled=(
-                        not st.session_state.current or
-                        not st.session_state.nodes[st.session_state.current]["parent"]
-                ),
-                help="Navegar al nodo padre",
-                use_container_width=True
-            )
-            st.button(
-                "⬇️ Abajo",
-                on_click=navigate_to_first_child,
-                disabled=(
-                        not st.session_state.current or
-                        not st.session_state.nodes[st.session_state.current]["children"]
-                ),
-                help="Navegar al primer hijo",
-                use_container_width=True
-            )
-
-        with nav_right:
-            st.button(
-                "→ Próximo",
-                on_click=navigate_next_cousin,
-                use_container_width=True
-            )
 
     with col2:
-
-
         # ✏️ Editor de Nodo
         if st.session_state.current:
-            with st.expander("✏️ Editor de Nodo", expanded=True):
+            with st.expander("✏️ Editor de Nodo", expanded=False):
                 render_node_editor()
 
 def create_root_node(label: str):

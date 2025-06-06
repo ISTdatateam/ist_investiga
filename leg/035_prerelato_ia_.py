@@ -1,19 +1,27 @@
+#035_prerelato_ia.py
 import streamlit as st
-from src.forms.data_form import init_session_fields
-import time
-from src.forms.data_form import explore_q_app_wrapper
 from src.forms.data_form import get_qm
+from src.ia.questions import InvestigationApp
 import json
+from datetime import datetime
 
-qm = get_qm()
+
 
 def run():
+    #with st.expander("Debug Técnico"):
+    #    st.json({
+    #        "session_state": dict(st.session_state),
+    #        "secrets_keys": list(st.secrets.keys()),
+    #        "active_model": qm.current_model if hasattr(qm, "current_model") else "n/d"
+    #    })
 
     # Flags que usaremos
     st.session_state.setdefault("prerelato_form_guardado", False)
 
-    st.header("Declaraciones")
-    st.write("En este momento el asistente va a analizar la información disponible hasta el momento y te va a proponer preguntas guía para realizar en las entrevistas")
+    st.header("Evaluación de antecedentes")
+    st.write("En este momento el asistente va a analizar la información disponible hasta el momento y te va a proponer preguntas para realizar en las entrevistas y cuales son los documentos mas relevantes que incorporar a la investigación")
+
+    qm = get_qm()
 
     if st.button("Evaluar antecedentes con IA y generar preguntas guía", use_container_width=True):
         # Construir prompt inicial estructurado
@@ -51,28 +59,14 @@ def run():
                 f"Antecedentes: {st.session_state.preinitial_story}\n"
             )
 
-            st.write(prompt)
-
-
             # Generar relato inicial con manejo de modelo
-            with st.spinner(f"Generando preguntas para proceso de investigación..."):
-                st.session_state.preguntas_json = qm.generar_pregunta(
+            with st.spinner(f"Generando preguntas e identificando documentos claves..."):
+                st.session_state.preguntas_entrevista = qm.generar_pregunta(
                     "explora",
                     prompt
                 )
-                st.write(st.session_state.preguntas_entrevista)
-                print(st.session_state.preguntas_entrevista)
 
-    status = explore_q_app_wrapper()
+    if st.session_state.preguntas_entrevista:
+        st.write(st.session_state.preguntas_entrevista)
+        print(st.session_state.preguntas_entrevista)
 
-    # Llamada a la función de medidas correctivas
-    #if st.session_state.preguntas_json:
-    #    status = explore_app_wrapper()
-
-
-    # Botón Siguiente
-    if st.button('Guardar todas las declaraciones', use_container_width=True, type="primary"):
-        st.success("Sección Declaraciones guardada")
-        #st.session_state['_page'] = 5
-        time.sleep(1)
-        st.rerun()

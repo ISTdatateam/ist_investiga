@@ -19,6 +19,7 @@ def run():
 
     qm = get_qm()
     st.header("Árbol de Causas")
+    st.write("En este momento el asistente va a generar un árbol de causas estableciendo las relaciones entre los hechos identificados")
 
     # 2) Ya puedes trabajar con esos backups seguros:
     relatof = st.session_state.get('relatof')
@@ -42,6 +43,7 @@ def run():
         if st.session_state.nodes:
             # Asegúrate de que 'arbol_dot' contenga el DOT en st.session_state
             dot_src = st.session_state.get('arbol_dot')
+            dot_src = dot_src.replace('{', '{\n    graph [dpi=300];', 1)
 
             if not dot_src:
                 st.error("No hay definición DOT en session_state['arbol_dot']")

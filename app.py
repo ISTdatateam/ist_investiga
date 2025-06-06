@@ -12,10 +12,10 @@ if not st.session_state.get("initialized_fields", False):
 
 # Definición de páginas con íconos y rutas
 PAGES = {
+    0: ("Inicio", "src.forms.pages.00_inicio"),
     1: ("Datos Empresa", "src.forms.pages.01_empresa"),
     2: ("Datos Trabajador", "src.forms.pages.02_trabajador"),
     3: ("Datos Accidente", "src.forms.pages.03_accidente"),
-    35: ("Evaluación antecedentes", "src.forms.pages.035_prerelato_ia"),
     4: ("Declaraciones", "src.forms.pages.04_declaraciones"),
     45: ("Fotos y documentos", "src.forms.pages.045_fotos_documentos"),
     5: ("Construcción relato", "src.forms.pages.05_relato_ia"),
@@ -27,7 +27,7 @@ PAGES = {
 
 # Página por defecto
 if "_page" not in st.session_state:
-    st.session_state["_page"] = 1
+    st.session_state["_page"] = 0
 
 # Asegura que current siempre sea un int válido
 try:
@@ -38,8 +38,6 @@ except (ValueError, TypeError):
 page_keys = list(PAGES.keys())
 page_labels = [PAGES[k][0] for k in page_keys]
 def_index = page_keys.index(current)
-
-# …tus imports y configuración anteriores…
 
 # Menú lateral CON option_menu dentro de st.sidebar
 with st.sidebar:

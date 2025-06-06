@@ -22,11 +22,12 @@ def run():
     st.session_state.setdefault("contexto", "")
     st.session_state.setdefault("circunstancias", "")
 
-    st.header("Construcción del relato")
+    st.header("Construcción del relato con IA")
+    st.write("En este momento el asistente va a analizar nuevamente la información disponible y te realizara preguntas para completar algunos vacíos detectados")
 
     qm = get_qm()
 
-    if st.button("Asistente para mejorar relatos con IA"):
+    if st.button("Asistente para mejorar el relato con IA", use_container_width=True):
         try:
             # Construir prompt inicial estructurado
             if not st.session_state.get("initial_story"):
@@ -79,7 +80,7 @@ def run():
                 st.session_state.initial_story = json.dumps(initial_data, ensure_ascii=False, indent=2)
 
             # Generar relato inicial con manejo de modelo
-            with st.spinner(f"Generando relato con {st.secrets.get('DEFAULT_MODEL', 'deepseek-reasoner')}..."):
+            with st.spinner(f"Generando relato con..."):
                 st.session_state.relatof = qm.generar_pregunta(
                     "relato_inicial",
                     st.session_state.initial_story

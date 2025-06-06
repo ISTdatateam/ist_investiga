@@ -55,7 +55,9 @@ def init_session_fields():
     # Estados para IA
 
     st.session_state.setdefault('analisis_antecedentes', None)
+    st.session_state.setdefault('preguntas_json', '')
     st.session_state.setdefault('preguntas_entrevista', None)
+    st.session_state.setdefault('preinitial_story', None)
     st.session_state.setdefault('relatof', None)
     st.session_state.setdefault('hechos', None)
     st.session_state.setdefault('arbol', None)
@@ -84,6 +86,27 @@ def medidas_app_wrapper():
     from src.actions.corrective import medidas_app
     status = medidas_app()
     return status
+
+def explore_q_app_wrapper():
+    """
+    Wrapper para llamar a la función de medidas correctivas.
+    """
+    from src.ia.questions import QuestionManager
+    qm = QuestionManager(st.secrets)
+    from src.actions.explore_q import explore_app
+    status = explore_app()
+    return status
+
+def explore_f_app_wrapper():
+    """
+    Wrapper para llamar a la función de medidas correctivas.
+    """
+    from src.ia.questions import QuestionManager
+    qm = QuestionManager(st.secrets)
+    from src.actions.explore_f import explore_app
+    status = explore_app()
+    return status
+
 
 
 def export_docx_wrapper():

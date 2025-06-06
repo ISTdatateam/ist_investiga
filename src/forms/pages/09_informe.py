@@ -26,7 +26,7 @@ def run():
         st.session_state.get('fecha_informe', datetime.date.today())
     )
 
-    if st.button("Generar informe"):
+    if st.button("Generar informe" , use_container_width=True):
         try:
             with st.spinner("Generando informe..."):
                 st.session_state.setdefault('resumen', None)

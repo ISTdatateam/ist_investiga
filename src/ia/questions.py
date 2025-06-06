@@ -1,7 +1,9 @@
+#questions.py
 import streamlit as st
 from openai import OpenAI
 import json
 from pathlib import Path
+import time
 
 from streamlit import session_state, columns
 
@@ -103,10 +105,10 @@ class QuestionManager:
             if st.secrets.get("DEBUG", False):
                 debug_info = {
                     "model": config["model"],
-                    "provider": "deepseek" if "deepseek" in config["model"].lower() else "openai",
+                    "provider": config["provider"],#"deepseek" if "deepseek" in config["model"].lower() else "openai",
                     "prompt": config["instruction"],
-                    "contexto": contexto[:500] + "..." if len(contexto) > 500 else contexto,
-                    "respuesta": completion.choices[0].message.content.strip()[:1000] + "..."
+                    "contexto": contexto, #[:500] + "..." if len(contexto) > 500 else contexto,
+                    "respuesta": completion.choices[0].message.content.strip()#[:1000] + "..."
                 }
                 st.write(f"```json\n{json.dumps(debug_info, indent=2)}\n```")
 
@@ -226,18 +228,19 @@ class InvestigationApp:
             print(session_state.relatof)
         st.expander("Relato Completo", expanded=True).write(session_state.relatof)
 
-        col1, col2 = columns(2)
+        if st.button("Continuar con identificación de hechos"):
+            st.session_state['_page'] = 6
+            st.success("El relato fue guardado")
+            time.sleep(1)
+            st.rerun()
 
+        #col1, col2 = columns(2)
         #with col1:
         #    if st.button("Seguir completando relato"):
         #        session_state.relato_accidente = session_state.relatof
         #        session_state.current_page = 11
         #        st.rerun()
-
-        with col2:
-            if st.button("Continuar con identificación de hechos"):
-                st.session_state['_page'] = 6
-                st.rerun()
+        #with col2:
 
     def navigate_to(self, next_page):
         self.state_manager.safe_history_append(session_state.current_page)

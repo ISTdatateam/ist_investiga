@@ -17,6 +17,7 @@ class InformeGenerator:
         """
         Genera una imagen PNG a partir del string DOT y devuelve los bytes.
         """
+
         graph = Source(dot_source, format='png')
         return graph.pipe()
 
@@ -322,7 +323,7 @@ class InformeGenerator:
     #    graph.render(output_path, cleanup=True)
 
     def _add_cause_tree(self, doc):
-        heading = doc.add_heading('7. Arbol de causas', level=2)
+        heading = doc.add_heading('7. Árbol de causas', level=2)
         doc.add_paragraph()
         self._apply_style(heading, 'encabezado2')
         self._apply_style(doc.add_paragraph("Acorde a la información señalada y al análisis de ella, es posible estructurar los hechos identificados según el siguiente árbol de causas:"),'uso')

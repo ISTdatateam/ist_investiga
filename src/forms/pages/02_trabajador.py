@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 import time
+from src.db import upsert_trabajador   # <— NUEVO import
 
 def run():
     st.header("Datos Trabajador")
@@ -86,7 +87,27 @@ def run():
     )
     # Botón que guarda y avanza
     if st.button("Guardar datos", use_container_width=True):
-        st.success("Sección Datos Trabajador guardada")
-        #st.session_state['_page'] = 3
-        time.sleep(1)
+        if "empresa_id" not in st.session_state:
+            st.error("Primero debes guardar los datos de la empresa (página 01).")
+            st.stop()
+
+        trabajador_id = upsert_trabajador(
+            st.session_state.empresa_id,
+            {
+                "empresa_id": st.session_state.empresa_id,
+                "nombre": st.session_state.nombre_trabajador.strip(),
+                "rut": st.session_state.rut_trabajador.strip(),
+                "fec_nac": (st.session_state.fecha_nacimiento
+                            .isoformat() if st.session_state.fecha_nacimiento else None),
+                "nac": st.session_state.nacionalidad.strip(),
+                "estado": st.session_state.estado_civil,
+                "dom": st.session_state.domicilio.strip(),
+            },
+        )
+
+        # Guarda PK para la página 03
+        st.session_state.trabajador_id = trabajador_id
+
+        st.success("Sección Datos Trabajador guardada en la base de datos")
+        time.sleep(0.8)
         st.rerun()

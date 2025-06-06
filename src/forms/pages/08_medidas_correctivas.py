@@ -7,7 +7,7 @@ def run():
         st.session_state['edited_measures'] = []  # o {} según lo que uses
 
     st.header("Medidas Correctivas")
-
+    st.write("En este momento el asistente va a generar medidas correctivas basadas en los hallazgos de la investigación")
 
     # Llamada a la función de medidas correctivas
     status = medidas_app_wrapper()
